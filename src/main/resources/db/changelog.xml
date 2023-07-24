@@ -9,6 +9,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
 
+    <include file="changelog/001-initial_db_setup.xml" relativeToChangelogFile="true"/>
     <include file="changelog/002-insert_data_table_clients.xml" relativeToChangelogFile="true"/>
     <include file="changelog/003-insert_data_table_masters.xml" relativeToChangelogFile="true"/>
     <include file="changelog/004-insert_data_table_procedures.xml" relativeToChangelogFile="true"/>
