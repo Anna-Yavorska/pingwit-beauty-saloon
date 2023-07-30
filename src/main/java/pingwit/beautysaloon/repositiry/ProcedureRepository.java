@@ -2,8 +2,8 @@ package pingwit.beautysaloon.repositiry;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pingwit.beautysaloon.repositiry.model.Master;
+import pingwit.beautysaloon.repositiry.model.Procedure;
 
 @Repository
-public interface MasterRepository extends JpaRepository<Master, Integer> {
+public interface ProcedureRepository extends JpaRepository<Procedure, Integer> {
 }

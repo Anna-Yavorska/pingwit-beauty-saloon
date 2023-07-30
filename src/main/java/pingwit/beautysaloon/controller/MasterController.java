@@ -15,6 +15,7 @@ public class MasterController {
     public MasterController(MasterService masterService) {
         this.masterService = masterService;
     }
+
     @GetMapping("/{id}")
     public MasterDTO getClientById(@PathVariable Integer id) {
         return masterService.getMasterById(id);

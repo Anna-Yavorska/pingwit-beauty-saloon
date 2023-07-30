@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class MasterConverter {
-    public Master convertMasterToEntity(MasterDTO source){
+    public Master convertMasterToEntity(MasterDTO source) {
         return new Master(
                 source.getId(),
                 source.getName(),
@@ -19,15 +19,18 @@ public class MasterConverter {
                 source.getProfession()
         );
     }
-    public MasterDTO convertMasterToDTO(Master source){
+
+    public MasterDTO convertMasterToDTO(Master source) {
         return convertToDto(source);
     }
-    public List<MasterDTO> convertMasterToDTO(Collection<Master> source){
+
+    public List<MasterDTO> convertMasterToDTO(Collection<Master> source) {
         return source.stream()
                 .map(this::convertToDto)
                 .toList();
     }
-    private MasterDTO convertToDto(Master source){
+
+    private MasterDTO convertToDto(Master source) {
         MasterDTO result = new MasterDTO();
         result.setId(source.getId());
         result.setName(source.getName());

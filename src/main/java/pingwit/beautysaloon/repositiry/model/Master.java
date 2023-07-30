@@ -8,15 +8,15 @@ public class Master {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
-    @Column(name="surname")
+    @Column(name = "surname")
     private String surname;
-    @Column(name="phone")
+    @Column(name = "phone")
     private String phone;
-    @Column(name= "prof_level")
+    @Column(name = "prof_level")
     private String profLevel;
-    @Column(name="profession")
+    @Column(name = "profession")
     private String profession;
 
     public Master() {
