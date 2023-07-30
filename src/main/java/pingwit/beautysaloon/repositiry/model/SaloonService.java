@@ -13,12 +13,15 @@ public class SaloonService {
     @Column(name = "name")
     private String name;
     @ManyToOne
+    @JoinColumn(name = "client_id")
     private Client client;
     @ManyToOne
+    @JoinColumn(name = "master_id")
     private Master master;
     @Column(name = "date")
     private Date date;
     @ManyToOne
+    @JoinColumn(name ="procedures_id")
     private Procedure procedure;
     @Column(name = "price")
     private Double price;
