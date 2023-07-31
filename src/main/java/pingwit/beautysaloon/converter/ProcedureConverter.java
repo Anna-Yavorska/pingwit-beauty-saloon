@@ -22,7 +22,7 @@ public class ProcedureConverter {
         return convertToDto(source);
     }
 
-    public List<ProcedureDTO> convertProcedureToDTO(Collection<Procedure> source) {
+    public Collection<ProcedureDTO> convertProcedureToDTO(Collection<Procedure> source) {
         return source.stream()
                 .map(this::convertToDto)
                 .toList();

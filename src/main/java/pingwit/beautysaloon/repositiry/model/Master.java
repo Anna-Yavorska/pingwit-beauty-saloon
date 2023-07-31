@@ -2,6 +2,8 @@ package pingwit.beautysaloon.repositiry.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "masters")
 public class Master {
@@ -15,14 +17,24 @@ public class Master {
     @Column(name = "phone")
     private String phone;
     @Column(name = "prof_level")
-    private String profLevel;
+    @Enumerated(EnumType.STRING)
+    private ProfLevel profLevel;
     @Column(name = "profession")
     private String profession;
 
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "master_procedure",
+            joinColumns = @JoinColumn(name = "master_id"),
+            inverseJoinColumns = @JoinColumn(name = "procedure_id")
+    )
+    private Set<Procedure> procedures;
     public Master() {
     }
 
-    public Master(Integer id, String name, String surname, String phone, String profLevel, String profession) {
+    public Master(Integer id, String name, String surname, String phone, ProfLevel profLevel, String profession) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -63,11 +75,11 @@ public class Master {
         this.phone = phone;
     }
 
-    public String getProfLevel() {
+    public ProfLevel getProfLevel() {
         return profLevel;
     }
 
-    public void setProfLevel(String profLevel) {
+    public void setProfLevel(ProfLevel profLevel) {
         this.profLevel = profLevel;
     }
 
@@ -77,6 +89,14 @@ public class Master {
 
     public void setProfession(String profession) {
         this.profession = profession;
+    }
+
+    public Set<Procedure> getProcedures() {
+        return procedures;
+    }
+
+    public void setProcedures(Set<Procedure> procedures) {
+        this.procedures = procedures;
     }
 
     @Override

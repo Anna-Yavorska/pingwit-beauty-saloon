@@ -1,6 +1,8 @@
 package pingwit.beautysaloon.controller.dto;
 
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 
 public class MasterDTO {
     private Integer id;
@@ -9,6 +11,8 @@ public class MasterDTO {
     private String phone;
     private String profLevel;
     private String profession;
+
+    private Collection<ProcedureDTO> procedures;
 
     public Integer getId() {
         return id;
@@ -56,6 +60,14 @@ public class MasterDTO {
 
     public void setProfession(String profession) {
         this.profession = profession;
+    }
+
+    public Collection<ProcedureDTO> getProcedures() {
+        return procedures;
+    }
+
+    public void setProcedures(Collection<ProcedureDTO> procedures) {
+        this.procedures = procedures;
     }
 
     @Override
