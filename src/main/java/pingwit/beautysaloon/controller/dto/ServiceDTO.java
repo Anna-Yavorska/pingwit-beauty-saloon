@@ -1,6 +1,7 @@
 package pingwit.beautysaloon.controller.dto;
 
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ public class ServiceDTO {
     private MasterDTO master;
     private Date date;
     private ProcedureDTO procedure;
-    private Double price;
+    private BigDecimal price;
 
     public Integer getId() {
         return id;
@@ -61,11 +62,11 @@ public class ServiceDTO {
         this.procedure = procedure;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

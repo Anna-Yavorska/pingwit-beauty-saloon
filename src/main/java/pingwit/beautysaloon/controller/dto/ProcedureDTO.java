@@ -1,12 +1,13 @@
 package pingwit.beautysaloon.controller.dto;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class ProcedureDTO {
     private Integer id;
     private String name;
     private String description;
-    private Double time;
+    private BigDecimal time;
 
     public Integer getId() {
         return id;
@@ -32,11 +33,11 @@ public class ProcedureDTO {
         this.description = description;
     }
 
-    public Double getTime() {
+    public BigDecimal getTime() {
         return time;
     }
 
-    public void setTime(Double time) {
+    public void setTime(BigDecimal time) {
         this.time = time;
     }
 

@@ -2,6 +2,8 @@ package pingwit.beautysaloon.repositiry.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "procedures")
 public class Procedure {
@@ -13,12 +15,12 @@ public class Procedure {
     @Column(name = "description")
     private String description;
     @Column(name = "time")
-    private Double time;
+    private BigDecimal time;
 
     public Procedure() {
     }
 
-    public Procedure(Integer id, String name, String description, Double time) {
+    public Procedure(Integer id, String name, String description, BigDecimal time) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -49,11 +51,11 @@ public class Procedure {
         this.description = description;
     }
 
-    public Double getTime() {
+    public BigDecimal getTime() {
         return time;
     }
 
-    public void setTime(Double time) {
+    public void setTime(BigDecimal time) {
         this.time = time;
     }
 

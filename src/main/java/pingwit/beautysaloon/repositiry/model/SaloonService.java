@@ -2,6 +2,7 @@ package pingwit.beautysaloon.repositiry.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -24,12 +25,12 @@ public class SaloonService {
     @JoinColumn(name ="procedures_id")
     private Procedure procedure;
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
 
     public SaloonService() {
     }
 
-    public SaloonService(Integer id, String name, Client client, Master master, Date date, Procedure procedure, Double price) {
+    public SaloonService(Integer id, String name, Client client, Master master, Date date, Procedure procedure, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.client = client;
@@ -87,11 +88,11 @@ public class SaloonService {
         this.procedure = procedure;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
