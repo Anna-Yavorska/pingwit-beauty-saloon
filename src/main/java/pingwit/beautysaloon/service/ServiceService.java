@@ -9,7 +9,7 @@ public interface ServiceService {
 
     List<ServiceDTO> getAllServices();
 
-    Integer createServie(ServiceDTO serviceToCreate);
+    Integer createService(ServiceDTO serviceToCreate);
 
     ServiceDTO updateService(Integer id, ServiceDTO serviceToUpdate);
 

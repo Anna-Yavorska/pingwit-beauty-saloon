@@ -17,7 +17,7 @@ public class MasterController {
     }
 
     @GetMapping("/{id}")
-    public MasterDTO getClientById(@PathVariable Integer id) {
+    public MasterDTO getMasterById(@PathVariable Integer id) {
         return masterService.getMasterById(id);
     }
 

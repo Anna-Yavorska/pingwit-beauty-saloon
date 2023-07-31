@@ -1,4 +1,4 @@
-package pingwit.beautysaloon.service;
+package pingwit.beautysaloon.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +7,7 @@ import pingwit.beautysaloon.converter.MasterConverter;
 import pingwit.beautysaloon.exception.NotFoundException;
 import pingwit.beautysaloon.repositiry.MasterRepository;
 import pingwit.beautysaloon.repositiry.model.Master;
+import pingwit.beautysaloon.service.MasterService;
 
 import java.util.Collection;
 

@@ -27,7 +27,7 @@ public class ServiceController {
 
     @PostMapping()
     public Integer createService(@RequestBody ServiceDTO serviceToCreate) {
-        return service.createServie(serviceToCreate);
+        return service.createService(serviceToCreate);
     }
 
     @PutMapping("/{id}")

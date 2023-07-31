@@ -1,4 +1,4 @@
-package pingwit.beautysaloon.service;
+package pingwit.beautysaloon.service.impl;
 
 
 import org.springframework.stereotype.Service;
@@ -8,6 +8,7 @@ import pingwit.beautysaloon.converter.ServiceConverter;
 import pingwit.beautysaloon.exception.NotFoundException;
 import pingwit.beautysaloon.repositiry.ServiceRepository;
 import pingwit.beautysaloon.repositiry.model.SaloonService;
+import pingwit.beautysaloon.service.ServiceService;
 
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     @Transactional
-    public Integer createServie(ServiceDTO serviceToCreate) {
+    public Integer createService(ServiceDTO serviceToCreate) {
         SaloonService service = serviceConverter.convertServiceToEntity(serviceToCreate);
         SaloonService savedService = serviceRepository.save(service);
         return savedService.getId();
