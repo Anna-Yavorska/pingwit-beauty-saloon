@@ -21,7 +21,7 @@ public enum ProfLevel {
     private static final Set<String> VALUES = new HashSet<>();
 
     static {
-        for (ProfLevel e: values()) {
+        for (ProfLevel e : values()) {
             VALUES.add(e.value);
         }
     }

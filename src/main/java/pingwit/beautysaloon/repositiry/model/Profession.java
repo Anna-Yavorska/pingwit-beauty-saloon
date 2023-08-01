@@ -16,13 +16,16 @@ public enum Profession {
     Profession(String value) {
         this.value = value;
     }
+
     private static final Set<String> VALUES = new HashSet<>();
+
     static {
-        for (Profession e: values()){
+        for (Profession e : values()) {
             VALUES.add(e.value);
         }
     }
-    public boolean hasValue(String value){
+
+    public boolean hasValue(String value) {
         return VALUES.contains(value);
     }
 }

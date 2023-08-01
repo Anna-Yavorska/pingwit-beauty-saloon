@@ -12,7 +12,8 @@ public class ProcedureConverter {
     public Procedure convertProcedureToEntity(ProcedureDTO source) {
         return convertToEntity(source);
     }
-    public List<Procedure> convertProcedureToEntity(Collection<ProcedureDTO> source){
+
+    public List<Procedure> convertProcedureToEntity(Collection<ProcedureDTO> source) {
         return source.stream()
                 .map(this::convertToEntity)
                 .toList();
@@ -27,7 +28,8 @@ public class ProcedureConverter {
                 .map(this::convertToDto)
                 .toList();
     }
-    private Procedure convertToEntity(ProcedureDTO source){
+
+    private Procedure convertToEntity(ProcedureDTO source) {
         Procedure result = new Procedure();
         result.setId(source.getId());
         result.setName(source.getName());

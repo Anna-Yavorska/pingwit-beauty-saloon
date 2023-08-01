@@ -24,6 +24,6 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<String> handleValidationException(ValidationException e) {
-        return ResponseEntity.status(BAD_REQUEST).body(e.getMessage());
+        return ResponseEntity.status(BAD_REQUEST).body(e.toString());
     }
 }
