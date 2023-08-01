@@ -10,12 +10,12 @@ import java.util.List;
 @Component
 public class ProcedureConverter {
     public Procedure convertProcedureToEntity(ProcedureDTO source) {
-        return new Procedure(
-                source.getId(),
-                source.getName(),
-                source.getDescription(),
-                source.getTime()
-        );
+        return convertToEntity(source);
+    }
+    public List<Procedure> convertProcedureToEntity(Collection<ProcedureDTO> source){
+        return source.stream()
+                .map(this::convertToEntity)
+                .toList();
     }
 
     public ProcedureDTO convertProcedureToDTO(Procedure source) {
@@ -26,6 +26,14 @@ public class ProcedureConverter {
         return source.stream()
                 .map(this::convertToDto)
                 .toList();
+    }
+    private Procedure convertToEntity(ProcedureDTO source){
+        Procedure result = new Procedure();
+        result.setId(source.getId());
+        result.setName(source.getName());
+        result.setDescription(source.getDescription());
+        result.setTime(source.getTime());
+        return result;
     }
 
     private ProcedureDTO convertToDto(Procedure source) {

@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet author="Anna Yavorska" id="1690222282351-1">
+    <changeSet author="Anna Yavorska" id="1690900916543-1">
         <createTable tableName="clients">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="clients_pkey"/>
@@ -22,7 +22,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Anna Yavorska" id="1690222282351-2">
+    <changeSet author="Anna Yavorska" id="1690900916543-2">
         <createTable tableName="masters">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="masters_pkey"/>
@@ -44,16 +44,16 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Anna Yavorska" id="1690222282351-3">
+    <changeSet author="Anna Yavorska" id="1690900916543-3">
         <addUniqueConstraint columnNames="email" constraintName="client-email" tableName="clients"/>
     </changeSet>
-    <changeSet author="Anna Yavorska" id="1690222282351-4">
+    <changeSet author="Anna Yavorska" id="1690900916543-4">
         <addUniqueConstraint columnNames="phone" constraintName="client-phone" tableName="clients"/>
     </changeSet>
-    <changeSet author="Anna Yavorska" id="1690222282351-5">
+    <changeSet author="Anna Yavorska" id="1690900916543-5">
         <addUniqueConstraint columnNames="phone" constraintName="master-phone" tableName="masters"/>
     </changeSet>
-    <changeSet author="Anna Yavorska" id="1690222282351-6">
+    <changeSet author="Anna Yavorska" id="1690900916543-7">
         <createTable tableName="procedures">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="procedures_pkey"/>
@@ -67,7 +67,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Anna Yavorska" id="1690222282351-7">
+    <changeSet author="Anna Yavorska" id="1690900916543-8">
         <createTable tableName="services">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="services_pkey"/>
@@ -92,13 +92,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Anna Yavorska" id="1690222282351-8">
+    <changeSet author="Anna Yavorska" id="1690900916543-11">
         <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="services" constraintName="services_client_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="clients" validate="true"/>
     </changeSet>
-    <changeSet author="Anna Yavorska" id="1690222282351-9">
+    <changeSet author="Anna Yavorska" id="1690900916543-12">
         <addForeignKeyConstraint baseColumnNames="master_id" baseTableName="services" constraintName="services_master_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="masters" validate="true"/>
     </changeSet>
-    <changeSet author="Anna Yavorska" id="1690222282351-10">
+    <changeSet author="Anna Yavorska" id="1690900916543-13">
         <addForeignKeyConstraint baseColumnNames="procedures_id" baseTableName="services" constraintName="services_procedures_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="procedures" validate="true"/>
     </changeSet>
 </databaseChangeLog>

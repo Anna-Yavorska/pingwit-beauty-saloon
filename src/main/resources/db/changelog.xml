@@ -14,4 +14,8 @@
     <include file="changelog/003-insert_data_table_masters.xml" relativeToChangelogFile="true"/>
     <include file="changelog/004-insert_data_table_procedures.xml" relativeToChangelogFile="true"/>
     <include file="changelog/005-insert_data_table_services.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/006-create_master_procedure_table.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/007-update_masters_table.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/008-update_clients_table.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/009-insert_data_table_master_procedure.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

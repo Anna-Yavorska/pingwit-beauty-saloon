@@ -2,6 +2,8 @@ package pingwit.beautysaloon.repositiry.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "masters")
 public class Master {
@@ -15,20 +17,32 @@ public class Master {
     @Column(name = "phone")
     private String phone;
     @Column(name = "prof_level")
-    private String profLevel;
+    @Enumerated(EnumType.STRING)
+    private ProfLevel profLevel;
     @Column(name = "profession")
-    private String profession;
+    @Enumerated(EnumType.STRING)
+    private Profession profession;
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "master_procedure",
+            joinColumns = @JoinColumn(name = "master_id"),
+            inverseJoinColumns = @JoinColumn(name = "procedure_id")
+    )
+    private List<Procedure> procedures;
 
     public Master() {
     }
 
-    public Master(Integer id, String name, String surname, String phone, String profLevel, String profession) {
+    public Master(Integer id, String name, String surname, String phone, ProfLevel profLevel, Profession profession, List<Procedure> procedures) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.profLevel = profLevel;
         this.profession = profession;
+        this.procedures = procedures;
     }
 
     public Integer getId() {
@@ -63,20 +77,28 @@ public class Master {
         this.phone = phone;
     }
 
-    public String getProfLevel() {
+    public ProfLevel getProfLevel() {
         return profLevel;
     }
 
-    public void setProfLevel(String profLevel) {
+    public void setProfLevel(ProfLevel profLevel) {
         this.profLevel = profLevel;
     }
 
-    public String getProfession() {
+    public Profession getProfession() {
         return profession;
     }
 
-    public void setProfession(String profession) {
+    public void setProfession(Profession profession) {
         this.profession = profession;
+    }
+
+    public List<Procedure> getProcedures() {
+        return procedures;
+    }
+
+    public void setProcedures(List<Procedure> procedures) {
+        this.procedures = procedures;
     }
 
     @Override
@@ -86,8 +108,9 @@ public class Master {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", phone='" + phone + '\'' +
-                ", profLevel='" + profLevel + '\'' +
-                ", profession='" + profession + '\'' +
+                ", profLevel=" + profLevel +
+                ", profession=" + profession +
+                ", procedures=" + procedures +
                 '}';
     }
 }
