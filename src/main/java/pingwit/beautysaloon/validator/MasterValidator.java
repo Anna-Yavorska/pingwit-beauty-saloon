@@ -25,7 +25,7 @@ public class MasterValidator {
         validateProfLevel(masterDTO, violations);
         validateProfession(masterDTO, violations);
         if (!violations.isEmpty()) {
-            throw new ValidationException("Provided client is invalid!", violations);
+            throw new ValidationException("Provided master is invalid!", violations);
         }
     }
 
@@ -59,23 +59,3 @@ public class MasterValidator {
         }
     }
 }
-
-
-//        StringBuilder allLevels = new StringBuilder();
-//        for (ProfLevel value : ProfLevel.values()) {
-//
-//            String level = value.getValue();
-//            allLevels.append(level);}
-//            if (!allLevels.toString().contains(masterDTO.getProfLevel())){
-//                violations.add(String.format("'%s' doesn't exist at system", masterDTO.getProfLevel()));
-//            }
-
-
-//        StringBuilder allProfessions = new StringBuilder();
-//        for (Profession value : Profession.values()) {
-//            String level = value.getValue();
-//            allProfessions.append(level);
-//        }
-//            if (!allProfessions.toString().contains(masterDTO.getProfession())){
-//                violations.add(String.format("'%s' doesn't exist at system", masterDTO.getProfession()));
-//            }
