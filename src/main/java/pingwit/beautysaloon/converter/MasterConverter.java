@@ -24,8 +24,8 @@ public class MasterConverter {
         master.setSurname(source.getSurname());
         master.setPhone(source.getPhone());
 
-        master.setProfLevel(ProfLevel.valueOf(source.getProfLevel()));
-        master.setProfession(Profession.valueOf(source.getProfession()));
+        master.setProfLevel(ProfLevel.findByValue(source.getProfLevel()));
+        master.setProfession(Profession.findByValue(source.getProfession()));
         master.setProcedures(procedureConverter.convertProcedureToEntity(source.getProcedures()));
         return master;
     }

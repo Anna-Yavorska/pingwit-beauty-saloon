@@ -48,20 +48,14 @@ public class MasterValidator {
     }
 
     private void validateProfLevel(MasterDTO masterDTO, List<String> violations) {
-        for (ProfLevel value : ProfLevel.values()) {
-            if (!value.hasValue(masterDTO.getProfLevel())) {
-                violations.add(String.format("'%s' doesn't exist at system", masterDTO.getProfLevel()));
-                break;
-            }
+        if (ProfLevel.findByValue(masterDTO.getProfLevel()) == null) {
+            violations.add(String.format("'%s' doesn't exist at system", masterDTO.getProfLevel()));
         }
     }
 
     private void validateProfession(MasterDTO masterDTO, List<String> violations) {
-        for (Profession value : Profession.values()) {
-            if (!value.hasValue(masterDTO.getProfession())) {
-                violations.add(String.format("'%s' doesn't exist at system", masterDTO.getProfession()));
-                break;
-            }
+        if (Profession.findByValue(masterDTO.getProfession()) == null) {
+            violations.add(String.format("'%s' doesn't exist at system", masterDTO.getProfession()));
         }
     }
 }

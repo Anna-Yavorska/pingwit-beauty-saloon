@@ -1,8 +1,5 @@
 package pingwit.beautysaloon.repositiry.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public enum ProfLevel {
     BASIC("basic"),
     MIDDLE("middle"),
@@ -18,15 +15,14 @@ public enum ProfLevel {
         this.value = value;
     }
 
-    private static final Set<String> VALUES = new HashSet<>();
-
-    static {
-        for (ProfLevel e : values()) {
-            VALUES.add(e.value);
+    public static ProfLevel findByValue(String value) {
+        ProfLevel result = null;
+        for (ProfLevel day : values()) {
+            if (day.getValue().equalsIgnoreCase(value)) {
+                result = day;
+                break;
+            }
         }
-    }
-
-    public boolean hasValue(String value) {
-        return VALUES.contains(value);
+        return result;
     }
 }

@@ -1,8 +1,5 @@
 package pingwit.beautysaloon.repositiry.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public enum Profession {
     HAIRDRESSER("hairdresser"),
     MANICURIST("manicurist"),
@@ -17,15 +14,14 @@ public enum Profession {
         this.value = value;
     }
 
-    private static final Set<String> VALUES = new HashSet<>();
-
-    static {
-        for (Profession e : values()) {
-            VALUES.add(e.value);
+    public static Profession findByValue(String value) {
+        Profession result = null;
+        for (Profession day : values()) {
+            if (day.getValue().equalsIgnoreCase(value)) {
+                result = day;
+                break;
+            }
         }
-    }
-
-    public boolean hasValue(String value) {
-        return VALUES.contains(value);
+        return result;
     }
 }
