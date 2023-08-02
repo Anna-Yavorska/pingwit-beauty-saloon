@@ -9,6 +9,7 @@ import pingwit.beautysaloon.exception.NotFoundException;
 import pingwit.beautysaloon.repositiry.ServiceRepository;
 import pingwit.beautysaloon.repositiry.model.SaloonService;
 import pingwit.beautysaloon.service.ServiceService;
+import pingwit.beautysaloon.validator.ServiceValidator;
 
 
 import java.util.List;
@@ -17,10 +18,12 @@ import java.util.List;
 public class ServiceServiceImpl implements ServiceService {
     private final ServiceRepository serviceRepository;
     private final ServiceConverter serviceConverter;
+    private final ServiceValidator validator;
 
-    public ServiceServiceImpl(ServiceRepository serviceRepository, ServiceConverter serviceConverter) {
+    public ServiceServiceImpl(ServiceRepository serviceRepository, ServiceConverter serviceConverter, ServiceValidator validator) {
         this.serviceRepository = serviceRepository;
         this.serviceConverter = serviceConverter;
+        this.validator = validator;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     @Transactional
     public Integer createService(ServiceDTO serviceToCreate) {
+        validator.validateService(serviceToCreate);
         SaloonService service = serviceConverter.convertServiceToEntity(serviceToCreate);
         SaloonService savedService = serviceRepository.save(service);
         return savedService.getId();
@@ -44,6 +48,7 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public ServiceDTO updateService(Integer id, ServiceDTO serviceToUpdate) {
+        validator.validateService(serviceToUpdate);
         SaloonService saloonService = serviceRepository.findById(id).orElseThrow(() -> new NotFoundException("Service not found: " + id));
         SaloonService entityToUpdate = serviceConverter.convertServiceToEntity(serviceToUpdate);
         entityToUpdate.setId(id);
