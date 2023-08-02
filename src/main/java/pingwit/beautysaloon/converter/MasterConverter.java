@@ -18,15 +18,16 @@ public class MasterConverter {
     }
 
     public Master convertMasterToEntity(MasterDTO source) {
-        return new Master(
-                source.getId(),
-                source.getName(),
-                source.getSurname(),
-                source.getPhone(),
-                ProfLevel.valueOf(source.getProfLevel()),
-                Profession.valueOf(source.getProfession()),
-                procedureConverter.convertProcedureToEntity(source.getProcedures())
-        );
+        Master master = new Master();
+        master.setId(source.getId());
+        master.setName(source.getName());
+        master.setSurname(source.getSurname());
+        master.setPhone(source.getPhone());
+
+        master.setProfLevel(ProfLevel.valueOf(source.getProfLevel()));
+        master.setProfession(Profession.valueOf(source.getProfession()));
+        master.setProcedures(procedureConverter.convertProcedureToEntity(source.getProcedures()));
+        return master;
     }
 
     public MasterDTO convertMasterToDTO(Master source) {

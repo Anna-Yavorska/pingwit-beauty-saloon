@@ -8,6 +8,7 @@ import pingwit.beautysaloon.exception.NotFoundException;
 import pingwit.beautysaloon.repositiry.MasterRepository;
 import pingwit.beautysaloon.repositiry.model.Master;
 import pingwit.beautysaloon.service.MasterService;
+import pingwit.beautysaloon.validator.MasterValidator;
 
 import java.util.Collection;
 
@@ -16,10 +17,12 @@ import java.util.Collection;
 public class MasterServiceImpl implements MasterService {
     private final MasterRepository masterRepository;
     private final MasterConverter masterConverter;
+    private final MasterValidator validator;
 
-    public MasterServiceImpl(MasterRepository masterRepository, MasterConverter masterConverter) {
+    public MasterServiceImpl(MasterRepository masterRepository, MasterConverter masterConverter, MasterValidator validator) {
         this.masterRepository = masterRepository;
         this.masterConverter = masterConverter;
+        this.validator = validator;
     }
 
     @Override
@@ -36,6 +39,7 @@ public class MasterServiceImpl implements MasterService {
     @Override
     @Transactional
     public Integer createMaster(MasterDTO masterToCreate) {
+        validator.validateMaster(masterToCreate);
         Master master = masterConverter.convertMasterToEntity(masterToCreate);
         Master savedMaster = masterRepository.save(master);
         return savedMaster.getId();
@@ -44,6 +48,7 @@ public class MasterServiceImpl implements MasterService {
     @Override
     @Transactional
     public MasterDTO updateMaster(Integer id, MasterDTO masterToUpdate) {
+        validator.validateMaster(masterToUpdate);
         Master master = masterRepository.findById(id).orElseThrow(() -> new NotFoundException("Master not found: " + id));
         Master entityToUpdate = masterConverter.convertMasterToEntity(masterToUpdate);
         entityToUpdate.setId(id);
