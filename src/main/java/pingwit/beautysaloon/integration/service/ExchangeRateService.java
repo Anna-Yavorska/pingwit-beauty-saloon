@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public interface ExchangeRateService {
-    ExchangeRateDTO findTwoRates();
-    ExchangeRateDTO findRateByValuta(String ccy);
+
+    ExchangeRateDTO findRateByValuta(String currencyCode);
 
 }

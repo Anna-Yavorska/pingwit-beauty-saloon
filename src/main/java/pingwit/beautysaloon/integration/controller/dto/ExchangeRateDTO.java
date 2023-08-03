@@ -1,47 +1,47 @@
 package pingwit.beautysaloon.integration.controller.dto;
 
 public class ExchangeRateDTO {
-    private String ccy;
-    private String bace_ccy;
-    private String buy;
-    private String sale;
+    private String currencyCode;
+    private String baseCurrencyCode;
+    private String bankBuyAt;
+    private String bankSellsAt;
 
-    public ExchangeRateDTO(String ccy, String bace_ccy, String buy, String sale) {
-        this.ccy = ccy;
-        this.bace_ccy = bace_ccy;
-        this.buy = buy;
-        this.sale = sale;
+    public ExchangeRateDTO(String currencyCode, String baseCurrencyCode, String bankBuyAt, String bankSellsAt) {
+        this.currencyCode = currencyCode;
+        this.baseCurrencyCode = baseCurrencyCode;
+        this.bankBuyAt = bankBuyAt;
+        this.bankSellsAt = bankSellsAt;
     }
 
-    public String getCcy() {
-        return ccy;
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
-    public void setCcy(String ccy) {
-        this.ccy = ccy;
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
-    public String getBace_ccy() {
-        return bace_ccy;
+    public String getBaseCurrencyCode() {
+        return baseCurrencyCode;
     }
 
-    public void setBace_ccy(String bace_ccy) {
-        this.bace_ccy = bace_ccy;
+    public void setBaseCurrencyCode(String baseCurrencyCode) {
+        this.baseCurrencyCode = baseCurrencyCode;
     }
 
-    public String getBuy() {
-        return buy;
+    public String getBankBuyAt() {
+        return bankBuyAt;
     }
 
-    public void setBuy(String buy) {
-        this.buy = buy;
+    public void setBankBuyAt(String bankBuyAt) {
+        this.bankBuyAt = bankBuyAt;
     }
 
-    public String getSale() {
-        return sale;
+    public String getBankSellsAt() {
+        return bankSellsAt;
     }
 
-    public void setSale(String sale) {
-        this.sale = sale;
+    public void setBankSellsAt(String bankSellsAt) {
+        this.bankSellsAt = bankSellsAt;
     }
 }

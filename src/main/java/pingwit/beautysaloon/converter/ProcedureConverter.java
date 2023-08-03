@@ -5,6 +5,7 @@ import pingwit.beautysaloon.controller.dto.ProcedureDTO;
 import pingwit.beautysaloon.repositiry.model.Procedure;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -14,6 +15,9 @@ public class ProcedureConverter {
     }
 
     public List<Procedure> convertProcedureToEntity(Collection<ProcedureDTO> source) {
+        if (source == null) {
+            return Collections.EMPTY_LIST;
+        }
         return source.stream()
                 .map(this::convertToEntity)
                 .toList();
