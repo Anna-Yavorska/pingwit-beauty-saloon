@@ -1,27 +1,30 @@
 package pingwit.beautysaloon.integration.service;
 
-import com.fasterxml.jackson.core.JsonToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pingwit.beautysaloon.integration.controller.dto.ExchangeRateDTO;
 import pingwit.beautysaloon.integration.model.ExchangeRate;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
+
 @Service
 public class ExchangeRateServiceImpl implements ExchangeRateService {
-    private static final String EXCHANGE_RATE_PROVIDER_URL="https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11";
+    private static final String EXCHANGE_RATE_PROVIDER_URL = "https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11";
 
     @Override
-    public ExchangeRateDTO findTwoRates() {
-        RestTemplate restTemplate= new RestTemplate();
+    public List<ExchangeRateDTO> findRate(String currencyCode) {
+        RestTemplate restTemplate = new RestTemplate();
 
-        ExchangeRate result = restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, ExchangeRate.class);
-
-        return new ExchangeRateDTO(result.getCcy(), result.getBase_ccy(), result.getBuy(), result.getSale());
-    }
-
-    @Override
-    public ExchangeRateDTO findRateByValuta(String ccy) {
-        return null;
+        ExchangeRate[] rates = restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, ExchangeRate[].class);
+        Stream<ExchangeRateDTO> rateDTOStream = Arrays.stream(rates)
+                .map(rate -> new ExchangeRateDTO(rate.getCcy(), rate.getBase_ccy(), rate.getBuy(), rate.getSale()));
+        if (currencyCode.isBlank()) {
+            return rateDTOStream.toList();
+        }
+        return rateDTOStream
+                .filter(rate -> currencyCode.equalsIgnoreCase(rate.getCcy()))
+                .toList();
     }
 }
