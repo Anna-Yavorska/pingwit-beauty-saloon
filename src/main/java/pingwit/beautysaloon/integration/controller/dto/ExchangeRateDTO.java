@@ -2,13 +2,13 @@ package pingwit.beautysaloon.integration.controller.dto;
 
 public class ExchangeRateDTO {
     private String ccy;
-    private String bace_ccy;
+    private String base_ccy;
     private String buy;
     private String sale;
 
-    public ExchangeRateDTO(String ccy, String bace_ccy, String buy, String sale) {
+    public ExchangeRateDTO(String ccy, String base_ccy, String buy, String sale) {
         this.ccy = ccy;
-        this.bace_ccy = bace_ccy;
+        this.base_ccy = base_ccy;
         this.buy = buy;
         this.sale = sale;
     }
@@ -21,12 +21,12 @@ public class ExchangeRateDTO {
         this.ccy = ccy;
     }
 
-    public String getBace_ccy() {
-        return bace_ccy;
+    public String getBase_ccy() {
+        return base_ccy;
     }
 
-    public void setBace_ccy(String bace_ccy) {
-        this.bace_ccy = bace_ccy;
+    public void setBase_ccy(String base_ccy) {
+        this.base_ccy = base_ccy;
     }
 
     public String getBuy() {
