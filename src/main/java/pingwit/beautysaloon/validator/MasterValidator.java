@@ -29,7 +29,7 @@ public class MasterValidator {
         }
     }
 
-    private static void validateLetterField(String value, String fieldName, List<String> violations) {
+    private void validateLetterField(String value, String fieldName, List<String> violations) {
         if (isBlank(value)) {
             violations.add(String.format("%s is blank", fieldName));
         }
@@ -38,7 +38,7 @@ public class MasterValidator {
         }
     }
 
-    private static void validatePhone(MasterDTO masterDTO, List<String> violations) {
+    private void validatePhone(MasterDTO masterDTO, List<String> violations) {
         if (isBlank(masterDTO.getPhone())) {
             violations.add("Phone is blank");
         }

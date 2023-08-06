@@ -34,11 +34,9 @@ public class ClientValidator {
         if (!violations.isEmpty()) {
             throw new ValidationException("Provided client is invalid!", violations);
         }
-
-
     }
 
-    private static void validateLetterField(String value, String fieldName, List<String> violations) {
+    private void validateLetterField(String value, String fieldName, List<String> violations) {
         if (isBlank(value)) {
             violations.add(String.format("%s is blank", fieldName));
         }
@@ -47,7 +45,7 @@ public class ClientValidator {
         }
     }
 
-    private static void validatePhone(ClientDTO clientDTO, List<String> violations) {
+    private void validatePhone(ClientDTO clientDTO, List<String> violations) {
         if (isBlank(clientDTO.getPhone())) {
             violations.add("Phone is blank");
         }

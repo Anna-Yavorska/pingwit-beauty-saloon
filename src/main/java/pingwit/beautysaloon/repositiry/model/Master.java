@@ -22,10 +22,7 @@ public class Master {
     @Column(name = "profession")
     @Enumerated(EnumType.STRING)
     private Profession profession;
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany
     @JoinTable(name = "master_procedure",
             joinColumns = @JoinColumn(name = "master_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")

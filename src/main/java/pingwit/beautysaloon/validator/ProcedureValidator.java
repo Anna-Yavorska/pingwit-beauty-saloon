@@ -19,13 +19,13 @@ public class ProcedureValidator {
         }
     }
 
-    private static void validateNameField(ProcedureDTO procedureDTO, List<String> violations) {
+    private void validateNameField(ProcedureDTO procedureDTO, List<String> violations) {
         if (procedureDTO.getName().isBlank()) {
             violations.add("name is blank");
         }
     }
 
-    private static void validateTimeOfProcedure(ProcedureDTO procedureDTO, List<String> violations) {
+    private void validateTimeOfProcedure(ProcedureDTO procedureDTO, List<String> violations) {
         if (procedureDTO.getTime() == null) {
             violations.add("time is null");
         } else if (procedureDTO.getTime().compareTo(BigDecimal.ZERO) <= 0) {
