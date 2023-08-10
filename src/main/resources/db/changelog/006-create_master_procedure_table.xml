@@ -1,0 +1,22 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Anna Yavorska" id="create_master_procedure_table">
+        <createTable tableName="master_procedure">
+            <column name="master_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="procedure_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Anna Yavorska" id="add_foreign_key_master">
+        <addForeignKeyConstraint baseColumnNames="master_id" baseTableName="master_procedure" constraintName="master_procedure_master_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="masters" validate="true"/>
+    </changeSet>
+    <changeSet author="Anna Yavorska" id="add_foreign_key_procedure">
+        <addForeignKeyConstraint baseColumnNames="procedure_id" baseTableName="master_procedure" constraintName="master_procedure_procedure_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="procedures" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

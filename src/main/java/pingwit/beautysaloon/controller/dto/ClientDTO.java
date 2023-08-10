@@ -7,13 +7,9 @@ import java.util.Objects;
 
 public class ClientDTO {
     private Integer id;
-    @Pattern(regexp = "^[a-zA-Z]*$")
     private String name;
-    @Pattern(regexp = "^[a-zA-Z]*$")
     private String surname;
-    @NotBlank
     private String phone;
-    @NotBlank
     private String email;
     private Boolean isVip;
 

@@ -8,6 +8,7 @@ import pingwit.beautysaloon.exception.NotFoundException;
 import pingwit.beautysaloon.repositiry.ClientRepository;
 import pingwit.beautysaloon.repositiry.model.Client;
 import pingwit.beautysaloon.service.ClientService;
+import pingwit.beautysaloon.validator.ClientValidator;
 
 import java.util.Collection;
 
@@ -16,10 +17,12 @@ import java.util.Collection;
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final ClientConverter clientConverter;
+    private final ClientValidator validator;
 
-    public ClientServiceImpl(ClientRepository clientRepository, ClientConverter clientConverter) {
+    public ClientServiceImpl(ClientRepository clientRepository, ClientConverter clientConverter, ClientValidator validator) {
         this.clientRepository = clientRepository;
         this.clientConverter = clientConverter;
+        this.validator = validator;
     }
 
 
@@ -37,6 +40,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public Integer createClient(ClientDTO clientToCreate) {
+        validator.validateClient(clientToCreate);
         Client client = clientConverter.convertClientToEntity(clientToCreate);
         Client savedClient = clientRepository.save(client);
         return savedClient.getId();
@@ -45,6 +49,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public ClientDTO updateClient(Integer id, ClientDTO clientToUpdate) {
+        validator.validateClient(clientToUpdate);
         Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("Client not found: " + id));
         Client entityToUpdate = clientConverter.convertClientToEntity(clientToUpdate);
         entityToUpdate.setId(id);

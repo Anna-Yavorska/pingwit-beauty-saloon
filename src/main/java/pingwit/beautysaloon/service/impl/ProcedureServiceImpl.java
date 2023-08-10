@@ -8,6 +8,7 @@ import pingwit.beautysaloon.exception.NotFoundException;
 import pingwit.beautysaloon.repositiry.ProcedureRepository;
 import pingwit.beautysaloon.repositiry.model.Procedure;
 import pingwit.beautysaloon.service.ProcedureService;
+import pingwit.beautysaloon.validator.ProcedureValidator;
 
 import java.util.Collection;
 
@@ -16,10 +17,12 @@ import java.util.Collection;
 public class ProcedureServiceImpl implements ProcedureService {
     private final ProcedureRepository procedureRepository;
     private final ProcedureConverter procedureConverter;
+    private final ProcedureValidator validator;
 
-    public ProcedureServiceImpl(ProcedureRepository procedureRepository, ProcedureConverter procedureConverter) {
+    public ProcedureServiceImpl(ProcedureRepository procedureRepository, ProcedureConverter procedureConverter, ProcedureValidator validator) {
         this.procedureRepository = procedureRepository;
         this.procedureConverter = procedureConverter;
+        this.validator = validator;
     }
 
     @Override
@@ -36,6 +39,7 @@ public class ProcedureServiceImpl implements ProcedureService {
     @Override
     @Transactional
     public Integer createProcedure(ProcedureDTO procedureToCreate) {
+        validator.validateProcedure(procedureToCreate);
         Procedure procedure = procedureConverter.convertProcedureToEntity(procedureToCreate);
         Procedure savedProcedure = procedureRepository.save(procedure);
         return savedProcedure.getId();
@@ -44,6 +48,7 @@ public class ProcedureServiceImpl implements ProcedureService {
     @Override
     @Transactional
     public ProcedureDTO updateProcedure(Integer id, ProcedureDTO procedureToUpdate) {
+        validator.validateProcedure(procedureToUpdate);
         Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException("Procedure not found: " + id));
         Procedure entityToUpdate = procedureConverter.convertProcedureToEntity(procedureToUpdate);
         entityToUpdate.setId(id);

@@ -22,7 +22,7 @@ public class SaloonService {
     @Column(name = "date")
     private Date date;
     @ManyToOne
-    @JoinColumn(name ="procedures_id")
+    @JoinColumn(name = "procedures_id")
     private Procedure procedure;
     @Column(name = "price")
     private BigDecimal price;

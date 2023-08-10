@@ -1,5 +1,6 @@
 package pingwit.beautysaloon.controller.dto;
 
+import java.util.Collection;
 import java.util.Objects;
 
 public class MasterDTO {
@@ -9,6 +10,7 @@ public class MasterDTO {
     private String phone;
     private String profLevel;
     private String profession;
+    private Collection<ProcedureDTO> procedures;
 
     public Integer getId() {
         return id;
@@ -58,17 +60,25 @@ public class MasterDTO {
         this.profession = profession;
     }
 
+    public Collection<ProcedureDTO> getProcedures() {
+        return procedures;
+    }
+
+    public void setProcedures(Collection<ProcedureDTO> procedures) {
+        this.procedures = procedures;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MasterDTO masterDTO = (MasterDTO) o;
-        return Objects.equals(id, masterDTO.id) && Objects.equals(name, masterDTO.name) && Objects.equals(surname, masterDTO.surname) && Objects.equals(phone, masterDTO.phone) && Objects.equals(profLevel, masterDTO.profLevel) && Objects.equals(profession, masterDTO.profession);
+        return Objects.equals(id, masterDTO.id) && Objects.equals(name, masterDTO.name) && Objects.equals(surname, masterDTO.surname) && Objects.equals(phone, masterDTO.phone) && Objects.equals(profLevel, masterDTO.profLevel) && Objects.equals(profession, masterDTO.profession) && Objects.equals(procedures, masterDTO.procedures);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, phone, profLevel, profession);
+        return Objects.hash(id, name, surname, phone, profLevel, profession, procedures);
     }
 
     @Override
@@ -80,6 +90,7 @@ public class MasterDTO {
                 ", phone='" + phone + '\'' +
                 ", profLevel='" + profLevel + '\'' +
                 ", profession='" + profession + '\'' +
+                ", procedures=" + procedures +
                 '}';
     }
 }
