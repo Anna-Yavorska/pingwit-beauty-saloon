@@ -1,6 +1,5 @@
 package pingwit.beautysaloon.converter;
 
-import org.checkerframework.checker.units.qual.N;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
@@ -8,16 +7,17 @@ import pingwit.beautysaloon.repositiry.model.Procedure;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProcedureConverterTest {
     private static final Integer ID = 13;
     private static final String NAME = "TestName";
     private static final String DESCRIPTION = "Test description";
     private static final BigDecimal TIME = new BigDecimal(1);
+
     private final ProcedureConverter target = new ProcedureConverter();
 
     @Test
@@ -50,6 +50,19 @@ class ProcedureConverterTest {
 
         //then
         assertThat(actual).hasToString(expected.toString());
+    }
+    @Test
+    @DisplayName("Should return Collection.EMPTY_LIST when List<ProductDTO> is null")
+    void shouldReturnEmptyCollection_whenSourceIsNull(){
+        //given
+        Collection<ProcedureDTO> procedures = null;
+        List<Procedure> expected = Collections.EMPTY_LIST;
+
+        //when
+        List<Procedure> actual = target.convertProcedureToEntity(procedures);
+
+        //then
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
