@@ -29,6 +29,17 @@ public class ClientValidator {
         validateLetterField(clientDTO.getName(), "name", violations);
         validateLetterField(clientDTO.getSurname(), "surname", violations);
         validatePhone(clientDTO, violations);
+        validateEmailForUsed(clientDTO, violations);
+
+        if (!violations.isEmpty()) {
+            throw new ValidationException("Provided client is invalid!", violations);
+        }
+    }
+    public void validateClientToUpdate(ClientDTO clientDTO){
+        List<String> violations = new ArrayList<>();
+        validateLetterField(clientDTO.getName(), "name", violations);
+        validateLetterField(clientDTO.getSurname(), "surname", violations);
+        validatePhone(clientDTO, violations);
         validateEmail(clientDTO, violations);
 
         if (!violations.isEmpty()) {
@@ -54,13 +65,17 @@ public class ClientValidator {
         }
     }
 
-    private void validateEmail(ClientDTO clientDTO, List<String> violations) {
-        if (!EMAIL_PATTERN.matcher(clientDTO.getEmail()).matches()) {
-            violations.add(String.format("invalid email: '%s'", clientDTO.getEmail()));
-        }
+    private void validateEmailForUsed(ClientDTO clientDTO, List<String> violations) {
+        validateEmail(clientDTO, violations);
         List<Client> allByEmail = clientRepository.findAllByEmail(clientDTO.getEmail());
         if (!allByEmail.isEmpty()) {
             violations.add(String.format("email '%s' is already used in the system. Please choose a different one!", clientDTO.getEmail()));
+        }
+    }
+
+    private void validateEmail(ClientDTO clientDTO, List<String> violations){
+        if (!EMAIL_PATTERN.matcher(clientDTO.getEmail()).matches()) {
+            violations.add(String.format("invalid email: '%s'", clientDTO.getEmail()));
         }
     }
 }

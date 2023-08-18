@@ -27,9 +27,10 @@ class ClientValidatorTest {
 
         //when
         assertDoesNotThrow(() -> target.validateClient(valid));
+        assertDoesNotThrow(() -> target.validateClientToUpdate(valid));
 
         //then
-        verify(clientRepository).findAllByEmail(validClient().getEmail());
+        verify(clientRepository).findAllByEmail(valid.getEmail());
 
     }
 
@@ -41,10 +42,13 @@ class ClientValidatorTest {
         String expectedMessage = String.format("name can contain only letters: '%s'", invalidNameClient.getName());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateClient(invalidNameClient));
+        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidNameClient));
+        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidNameClient));
+
 
         //then
-        assertThat(validationException.getViolations()).containsOnly(expectedMessage);
+        assertThat(actual.getViolations()).containsOnly(expectedMessage);
+        assertThat(actualForUpdate.getViolations()).containsOnly(expectedMessage);
 
     }
 
@@ -57,10 +61,14 @@ class ClientValidatorTest {
         String expectedMessage = "name is blank";
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateClient(blankNameClient));
+        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(blankNameClient));
+        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(blankNameClient));
+
 
         //then
-        assertThat(validationException.getViolations()).contains(expectedMessage);
+        assertThat(actual.getViolations()).contains(expectedMessage);
+        assertThat(actualForUpdate.getViolations()).contains(expectedMessage);
+
     }
 
 
@@ -72,10 +80,13 @@ class ClientValidatorTest {
         String expectedMessage = String.format("surname can contain only letters: '%s'", invalidSurnameClient.getSurname());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateClient(invalidSurnameClient));
+        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidSurnameClient));
+        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidSurnameClient));
 
         //then
-        assertThat(validationException.getViolations()).containsOnly(expectedMessage);
+        assertThat(actual.getViolations()).containsOnly(expectedMessage);
+        assertThat(actualForUpdate.getViolations()).containsOnly(expectedMessage);
+
 
     }
 
@@ -87,10 +98,13 @@ class ClientValidatorTest {
         String expectedMessage = "surname is blank";
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateClient(blankSurnameClient));
+        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(blankSurnameClient));
+        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(blankSurnameClient));
 
         //then
-        assertThat(validationException.getViolations()).contains(expectedMessage);
+        assertThat(actual.getViolations()).contains(expectedMessage);
+        assertThat(actualForUpdate.getViolations()).contains(expectedMessage);
+
     }
 
 
@@ -102,10 +116,14 @@ class ClientValidatorTest {
         String expectedMessage = String.format("%s can contain only digits: '%s'", "phone", invalidPhoneClient.getPhone());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateClient(invalidPhoneClient));
+        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidPhoneClient));
+        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidPhoneClient));
+
 
         //then
-        assertThat(validationException.getViolations()).containsOnly(expectedMessage);
+        assertThat(actual.getViolations()).containsOnly(expectedMessage);
+        assertThat(actualForUpdate.getViolations()).containsOnly(expectedMessage);
+
     }
 
     @Test
@@ -116,10 +134,14 @@ class ClientValidatorTest {
         String expectedMessage = "Phone is blank";
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateClient(blankPhoneClient));
+        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(blankPhoneClient));
+        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(blankPhoneClient));
+
 
         //then
-        assertThat(validationException.getViolations()).contains(expectedMessage);
+        assertThat(actual.getViolations()).contains(expectedMessage);
+        assertThat(actualForUpdate.getViolations()).contains(expectedMessage);
+
     }
 
 
@@ -131,10 +153,14 @@ class ClientValidatorTest {
         String expectedMessage = String.format("invalid email: '%s'", invalidEmailClient.getEmail());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateClient(invalidEmailClient));
+        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidEmailClient));
+        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidEmailClient));
+
 
         //then
-        assertThat(validationException.getViolations()).containsOnly(expectedMessage);
+        assertThat(actual.getViolations()).containsOnly(expectedMessage);
+        assertThat(actualForUpdate.getViolations()).containsOnly(expectedMessage);
+
     }
 
     @Test

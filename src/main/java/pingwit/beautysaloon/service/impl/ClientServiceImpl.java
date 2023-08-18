@@ -49,7 +49,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public ClientDTO updateClient(Integer id, ClientDTO clientToUpdate) {
-        validator.validateClient(clientToUpdate);
+        validator.validateClientToUpdate(clientToUpdate);
         Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("Client not found: " + id));
         Client entityToUpdate = clientConverter.convertClientToEntity(clientToUpdate);
         entityToUpdate.setId(id);
