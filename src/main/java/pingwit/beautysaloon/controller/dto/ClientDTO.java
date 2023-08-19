@@ -1,8 +1,5 @@
 package pingwit.beautysaloon.controller.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-
 import java.util.Objects;
 
 public class ClientDTO {

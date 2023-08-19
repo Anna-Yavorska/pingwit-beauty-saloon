@@ -15,6 +15,7 @@ import java.util.Collection;
 @Service
 @Transactional(readOnly = true)
 public class MasterServiceImpl implements MasterService {
+    private static final String EXCEPTION_MESSAGE = "Master not found: ";
     private final MasterRepository masterRepository;
     private final MasterConverter masterConverter;
     private final MasterValidator validator;
@@ -27,7 +28,7 @@ public class MasterServiceImpl implements MasterService {
 
     @Override
     public MasterDTO getMasterById(Integer id) {
-        Master master = masterRepository.findById(id).orElseThrow(() -> new NotFoundException("Master not found: " + id));
+        Master master = masterRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         return masterConverter.convertMasterToDTO(master);
     }
 
@@ -49,7 +50,7 @@ public class MasterServiceImpl implements MasterService {
     @Transactional
     public MasterDTO updateMaster(Integer id, MasterDTO masterToUpdate) {
         validator.validateMaster(masterToUpdate);
-        Master master = masterRepository.findById(id).orElseThrow(() -> new NotFoundException("Master not found: " + id));
+        Master master = masterRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         Master entityToUpdate = masterConverter.convertMasterToEntity(masterToUpdate);
         entityToUpdate.setId(id);
         Master updatedMaster = masterRepository.save(entityToUpdate);
@@ -59,7 +60,7 @@ public class MasterServiceImpl implements MasterService {
     @Override
     @Transactional
     public void deleteMaster(Integer id) {
-        Master master = masterRepository.findById(id).orElseThrow(() -> new NotFoundException("Master not found: " + id));
+        Master master = masterRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         masterRepository.delete(master);
     }
 }

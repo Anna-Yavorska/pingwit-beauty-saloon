@@ -1,25 +1,29 @@
 package pingwit.beautysaloon.integration.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ExchangeRate {
-    private String ccy;
-    private String base_ccy;
+    @JsonProperty("ccy")
+    private String currency;
+    @JsonProperty("base_ccy")
+    private String nationalCurrency;
     private String buy;
     private String sale;
 
-    public String getCcy() {
-        return ccy;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setCcy(String ccy) {
-        this.ccy = ccy;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public String getBase_ccy() {
-        return base_ccy;
+    public String getNationalCurrency() {
+        return nationalCurrency;
     }
 
-    public void setBase_ccy(String base_ccy) {
-        this.base_ccy = base_ccy;
+    public void setNationalCurrency(String nationalCurrency) {
+        this.nationalCurrency = nationalCurrency;
     }
 
     public String getBuy() {

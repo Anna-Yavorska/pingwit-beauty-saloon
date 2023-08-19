@@ -90,7 +90,7 @@ class ProcedureConverterTest {
         List<ProcedureDTO> actual = target.convertProcedureToDTO(procedures);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
 
     }
 

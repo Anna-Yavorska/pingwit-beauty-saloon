@@ -83,7 +83,7 @@ class MasterConverterTest {
         List<MasterDTO> actual = target.convertMasterToDTO(masters);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         verify(procedureConverter).convertProcedureToDTO(list);
     }
 

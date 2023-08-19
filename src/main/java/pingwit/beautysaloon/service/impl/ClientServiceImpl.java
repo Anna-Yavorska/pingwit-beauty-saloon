@@ -15,6 +15,8 @@ import java.util.Collection;
 @Service
 @Transactional(readOnly = true)
 public class ClientServiceImpl implements ClientService {
+    private static final String EXCEPTION_MESSAGE = "Client not found: ";
+
     private final ClientRepository clientRepository;
     private final ClientConverter clientConverter;
     private final ClientValidator validator;
@@ -28,7 +30,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO getClientById(Integer id) {
-        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("Client not found: " + id));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         return clientConverter.convertClientToDTO(client);
     }
 
@@ -50,7 +52,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public ClientDTO updateClient(Integer id, ClientDTO clientToUpdate) {
         validator.validateClientToUpdate(clientToUpdate);
-        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("Client not found: " + id));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         Client entityToUpdate = clientConverter.convertClientToEntity(clientToUpdate);
         entityToUpdate.setId(id);
         Client updatedEntity = clientRepository.save(entityToUpdate);
@@ -60,7 +62,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void deleteClient(Integer id) {
-        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("Client not found: " + id));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         clientRepository.delete(client);
     }
 }

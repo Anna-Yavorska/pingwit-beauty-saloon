@@ -1,32 +1,32 @@
 package pingwit.beautysaloon.integration.controller.dto;
 
 public class ExchangeRateDTO {
-    private String ccy;
-    private String base_ccy;
+    private String currency;
+    private String nationalCurrency;
     private String buy;
     private String sale;
 
-    public ExchangeRateDTO(String ccy, String base_ccy, String buy, String sale) {
-        this.ccy = ccy;
-        this.base_ccy = base_ccy;
+    public ExchangeRateDTO(String currency, String nationalCurrency, String buy, String sale) {
+        this.currency = currency;
+        this.nationalCurrency = nationalCurrency;
         this.buy = buy;
         this.sale = sale;
     }
 
-    public String getCcy() {
-        return ccy;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setCcy(String ccy) {
-        this.ccy = ccy;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public String getBase_ccy() {
-        return base_ccy;
+    public String getNationalCurrency() {
+        return nationalCurrency;
     }
 
-    public void setBase_ccy(String base_ccy) {
-        this.base_ccy = base_ccy;
+    public void setNationalCurrency(String nationalCurrency) {
+        this.nationalCurrency = nationalCurrency;
     }
 
     public String getBuy() {

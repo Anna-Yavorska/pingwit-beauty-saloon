@@ -16,6 +16,8 @@ import java.util.List;
 
 @Service
 public class ServiceServiceImpl implements ServiceService {
+    private static final String EXCEPTION_MESSAGE = "Service not found: ";
+
     private final ServiceRepository serviceRepository;
     private final ServiceConverter serviceConverter;
     private final ServiceValidator validator;
@@ -28,7 +30,7 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public ServiceDTO getServiceById(Integer id) {
-        SaloonService saloonService = serviceRepository.findById(id).orElseThrow(() -> new NotFoundException("Service not found: " + id));
+        SaloonService saloonService = serviceRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         return serviceConverter.convertServiceToDTO(saloonService);
     }
 
@@ -49,7 +51,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public ServiceDTO updateService(Integer id, ServiceDTO serviceToUpdate) {
         validator.validateService(serviceToUpdate);
-        SaloonService saloonService = serviceRepository.findById(id).orElseThrow(() -> new NotFoundException("Service not found: " + id));
+        SaloonService saloonService = serviceRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         SaloonService entityToUpdate = serviceConverter.convertServiceToEntity(serviceToUpdate);
         entityToUpdate.setId(id);
         SaloonService updatedService = serviceRepository.save(entityToUpdate);
@@ -59,7 +61,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     @Transactional
     public void deleteService(Integer id) {
-        SaloonService saloonService = serviceRepository.findById(id).orElseThrow(() -> new NotFoundException("Service not found: " + id));
+        SaloonService saloonService = serviceRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         serviceRepository.delete(saloonService);
     }
 }

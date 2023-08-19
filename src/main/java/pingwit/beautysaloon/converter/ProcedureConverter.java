@@ -16,7 +16,7 @@ public class ProcedureConverter {
 
     public List<Procedure> convertProcedureToEntity(Collection<ProcedureDTO> source) {
         if (source == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         return source.stream()
                 .map(this::convertToEntity)
