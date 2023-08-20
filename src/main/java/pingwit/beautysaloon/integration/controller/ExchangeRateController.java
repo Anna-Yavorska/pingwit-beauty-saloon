@@ -1,5 +1,6 @@
 package pingwit.beautysaloon.integration.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,7 +10,7 @@ import pingwit.beautysaloon.integration.service.ExchangeRateService;
 
 import java.util.List;
 
-
+@Tag(name = "Exchange rate management API", description = "API for Read operation with exchange rate")
 @RestController
 @RequestMapping("/hryvnia")
 public class ExchangeRateController {

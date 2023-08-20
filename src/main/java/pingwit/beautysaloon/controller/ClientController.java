@@ -1,12 +1,13 @@
 package pingwit.beautysaloon.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import pingwit.beautysaloon.controller.dto.ClientDTO;
 import pingwit.beautysaloon.service.ClientService;
 
 import java.util.Collection;
-
+@Tag(name = "Client management API", description = "API for CRUD operations with clients")
 @RestController
 @RequestMapping("/clients")
 public class ClientController {

@@ -1,11 +1,12 @@
 package pingwit.beautysaloon.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
 import pingwit.beautysaloon.service.ProcedureService;
 
 import java.util.Collection;
-
+@Tag(name = "Procedure management API", description = "API for CRUD operations with procedures")
 @RestController
 @RequestMapping("/procedures")
 public class ProcedureController {

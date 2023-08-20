@@ -1,12 +1,13 @@
 package pingwit.beautysaloon.controller;
 
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.service.MasterService;
 
 import java.util.Collection;
-
+@Tag(name = "Master management API", description = "API for CRUD operations with masters")
 @RestController
 @RequestMapping("/masters")
 public class MasterController {

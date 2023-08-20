@@ -1,11 +1,12 @@
 package pingwit.beautysaloon.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import pingwit.beautysaloon.controller.dto.ServiceDTO;
 import pingwit.beautysaloon.service.ServiceService;
 
 import java.util.List;
-
+@Tag(name = "Service management API", description = "API for CRUD operations with services")
 @RestController
 @RequestMapping("/services")
 public class ServiceController {
