@@ -41,7 +41,7 @@ public class PriceServiceImpl implements PriceService {
                 .collect(Collectors.toSet());
         BigDecimal time = procedureService.getProcedureById(procedureId).getTime();
         BigDecimal price = null;
-        String profLevel = masterService.getMasterById(masterId).getProfLevel();
+        String profLevel = masterById.getProfLevel();
 
         if (procedures.contains(procedureId)) {
             if (profLevel.equals("basic")) {
