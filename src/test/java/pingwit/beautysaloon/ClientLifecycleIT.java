@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Testcontainers
-@SpringBootTest(classes = BeautySaloonApplication.class,
+@SpringBootTest(classes = BeautySalonApplication.class,
 webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ClientLifecycleIT {
     @LocalServerPort

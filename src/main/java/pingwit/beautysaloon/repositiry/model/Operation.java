@@ -1,18 +1,44 @@
-package pingwit.beautysaloon.controller.dto;
+package pingwit.beautysaloon.repositiry.model;
 
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
-public class ServiceDTO {
+@Entity
+@Table(name = "services")
+public class Operation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "name")
     private String name;
-    private ClientDTO client;
-    private MasterDTO master;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+    @ManyToOne
+    @JoinColumn(name = "master_id")
+    private Master master;
+    @Column(name = "date")
     private Date date;
-    private ProcedureDTO procedure;
+    @ManyToOne
+    @JoinColumn(name = "procedures_id")
+    private Procedure procedure;
+    @Column(name = "price")
     private BigDecimal price;
+
+    public Operation() {
+    }
+
+    public Operation(Integer id, String name, Client client, Master master, Date date, Procedure procedure, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.client = client;
+        this.master = master;
+        this.date = date;
+        this.procedure = procedure;
+        this.price = price;
+    }
 
     public Integer getId() {
         return id;
@@ -30,19 +56,19 @@ public class ServiceDTO {
         this.name = name;
     }
 
-    public ClientDTO getClient() {
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(ClientDTO client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 
-    public MasterDTO getMaster() {
+    public Master getMaster() {
         return master;
     }
 
-    public void setMaster(MasterDTO master) {
+    public void setMaster(Master master) {
         this.master = master;
     }
 
@@ -54,11 +80,11 @@ public class ServiceDTO {
         this.date = date;
     }
 
-    public ProcedureDTO getProcedure() {
+    public Procedure getProcedure() {
         return procedure;
     }
 
-    public void setProcedure(ProcedureDTO procedure) {
+    public void setProcedure(Procedure procedure) {
         this.procedure = procedure;
     }
 
@@ -71,21 +97,8 @@ public class ServiceDTO {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ServiceDTO that = (ServiceDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(client, that.client) && Objects.equals(master, that.master) && Objects.equals(date, that.date) && Objects.equals(procedure, that.procedure) && Objects.equals(price, that.price);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, client, master, date, procedure, price);
-    }
-
-    @Override
     public String toString() {
-        return "ServiceDTO{" +
+        return "Operation{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", client=" + client +

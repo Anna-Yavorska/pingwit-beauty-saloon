@@ -21,7 +21,7 @@ public class PriceServiceImpl implements PriceService {
     private static final BigDecimal MIDDLE_PROF_COEFFICIENT = new BigDecimal("1.2");
     private static final BigDecimal SENIOR_PROF_COEFFICIENT = new BigDecimal("1.3");
 
-    @Value("${beautySaloon.baseRate}")
+    @Value("${beautySalon.baseRate}")
     private BigDecimal baseRate;
 
     private final MasterService masterService;

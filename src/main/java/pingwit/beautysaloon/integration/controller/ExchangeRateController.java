@@ -1,5 +1,6 @@
 package pingwit.beautysaloon.integration.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,8 @@ public class ExchangeRateController {
     }
 
     @GetMapping
+    @Operation(summary = "Get exchange rate",
+            description = "Get information about exchange rate. If currency code will be invalid, empty array will be returned.")
     public List<ExchangeRateDTO> getExchangeRates(@RequestParam String currencyCode) {
         return service.findRate(currencyCode);
     }
