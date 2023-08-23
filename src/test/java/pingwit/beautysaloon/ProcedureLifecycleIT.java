@@ -30,6 +30,7 @@ class ProcedureLifecycleIT {
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:12");
 
+
     @DynamicPropertySource
     static void postgresProperties(DynamicPropertyRegistry registry){
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
@@ -75,27 +76,27 @@ class ProcedureLifecycleIT {
         ResponseEntity<ProcedureDTO> updatedProcedure = restTemplate.exchange("http://localhost:" + port + "/procedures/" + createdProcedureId, HttpMethod.PUT, requestUpdate, ProcedureDTO.class);
         ProcedureDTO updatedProcedureBody = updatedProcedure.getBody();
 
-        //delete client
+        //delete procedure
         restTemplate.delete("http://localhost:" + port + "/procedures/" + createdProcedureId);
         HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplate.getForObject("http://localhost:" + port + "/procedures/" + createdProcedureId, ProcedureDTO.class));
 
         String expectedMessage = String.format("404 : \"Procedure not found: %d\"", createdProcedureId);
 
-        //create client then
+        //create procedure then
         assertThat(actualProcedure).isNotNull();
         assertThat(actualProcedure.getName()).isEqualTo(someProcedure.getName());
         assertThat(actualProcedure.getDescription()).isEqualTo(someProcedure.getDescription());
         assertThat(actualProcedure.getTime()).isEqualTo(someProcedure.getTime());
 
-        //update client then
+        //update procedure then
         assert updatedProcedureBody != null;
         assertThat(updatedProcedureBody.getName()).isEqualTo(updatedProcedureName);
         assertThat(updatedProcedureBody.getDescription()).isEqualTo(updatedProcedureDescription);
         assertThat(updatedProcedureBody.getTime()).isEqualTo(updatedProcedureTime);
 
 
-        //delete client then
+        //delete procedure then
         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
 
     }
@@ -104,7 +105,7 @@ class ProcedureLifecycleIT {
         ProcedureDTO procedure = new ProcedureDTO();
         procedure.setName("SomeName");
         procedure.setDescription("Some description about procedure");
-        procedure.setTime(new BigDecimal("1.5"));
+        procedure.setTime(new BigDecimal("1.50"));
         return procedure;
     }
 
@@ -112,7 +113,7 @@ class ProcedureLifecycleIT {
         ProcedureDTO procedure = new ProcedureDTO();
         procedure.setName("UpdateName");
         procedure.setDescription("Some description about procedure");
-        procedure.setTime(new BigDecimal("1"));
+        procedure.setTime(new BigDecimal("1.00"));
         return procedure;
     }
 }
