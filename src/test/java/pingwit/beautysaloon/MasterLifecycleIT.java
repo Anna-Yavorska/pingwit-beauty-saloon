@@ -14,6 +14,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
+import pingwit.beautysaloon.controller.dto.ProcedureDTO;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -123,6 +124,7 @@ class MasterLifecycleIT {
         master.setPhone("987654321");
         master.setProfLevel("basic");
         master.setProfession("manicurist");
+
         master.setProcedures(null);
         return master;
     }

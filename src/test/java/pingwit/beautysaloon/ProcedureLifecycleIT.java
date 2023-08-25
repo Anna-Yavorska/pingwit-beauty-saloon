@@ -1,5 +1,6 @@
 package pingwit.beautysaloon;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,9 +17,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
 
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertThrows;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Testcontainers
 @SpringBootTest(classes = BeautySalonApplication.class,
@@ -32,27 +35,29 @@ class ProcedureLifecycleIT {
 
 
     @DynamicPropertySource
-    static void postgresProperties(DynamicPropertyRegistry registry){
+    static void postgresProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getPassword);
         registry.add("spring.datasource.password", postgres::getUsername);
         registry.add("spring.datasource.driver-class-name", postgres::getDriverClassName);
     }
+
     @Test
     @DisplayName("Check if any procedures were created during startup")
-    void checkClients(){
+    void checkClients() {
         TestRestTemplate restTemplate = new TestRestTemplate();
         ResponseEntity<ProcedureDTO[]> forEntity = restTemplate.getForEntity("http://localhost:" + port + "/procedures", ProcedureDTO[].class);
         ProcedureDTO[] body = forEntity.getBody();
 
         assertThat(body).isNotEmpty();
     }
+
     @Test
     @DisplayName("Tests procedure creation and subsequent retrieval, update and removal")
-    void verifyProcedureLifecycle(){
+    void verifyProcedureLifecycle() {
         //given
         RestTemplate restTemplate = new RestTemplate();
-        ProcedureDTO someProcedure = someProcedure();
+
         ProcedureDTO updateProcedure = updateProcedure();
         String updatedProcedureName = updateProcedure.getName();
         String updatedProcedureDescription = updateProcedure.getDescription();
@@ -61,44 +66,49 @@ class ProcedureLifecycleIT {
         // prepare request
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ProcedureDTO> request = new HttpEntity<>(someProcedure, headers);
-        HttpEntity<ProcedureDTO> requestUpdate = new HttpEntity<>(updateProcedure, headers);
+
+        // security
+        String auth = "admin" + ":" + "superman";
+        byte[] encodedAuth = Base64.encodeBase64(
+                auth.getBytes(Charset.forName("US-ASCII")) );
+        String authHeader = "Basic " + new String( encodedAuth );
+        headers.add( "Authorization", authHeader );
+
 
         // procedure creation
+        ProcedureDTO someProcedure = someProcedure();
+        HttpEntity<ProcedureDTO> request = new HttpEntity<>(someProcedure, headers);
         ResponseEntity<Integer> forEntity = restTemplate.postForEntity("http://localhost:" + port + "/procedures", request, Integer.class);
         Integer createdProcedureId = forEntity.getBody();
 
         //when
         ProcedureDTO actualProcedure = restTemplate.getForObject("http://localhost:" + port + "/procedures/" + createdProcedureId, ProcedureDTO.class);
 
-        //update procedure
-        updateProcedure.setId(createdProcedureId);
-        ResponseEntity<ProcedureDTO> updatedProcedure = restTemplate.exchange("http://localhost:" + port + "/procedures/" + createdProcedureId, HttpMethod.PUT, requestUpdate, ProcedureDTO.class);
-        ProcedureDTO updatedProcedureBody = updatedProcedure.getBody();
-
-        //delete procedure
-        restTemplate.delete("http://localhost:" + port + "/procedures/" + createdProcedureId);
-        HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
-                () -> restTemplate.getForObject("http://localhost:" + port + "/procedures/" + createdProcedureId, ProcedureDTO.class));
-
-        String expectedMessage = String.format("404 : \"Procedure not found: %d\"", createdProcedureId);
-
-        //create procedure then
+        // create procedure then
         assertThat(actualProcedure).isNotNull();
         assertThat(actualProcedure.getName()).isEqualTo(someProcedure.getName());
         assertThat(actualProcedure.getDescription()).isEqualTo(someProcedure.getDescription());
         assertThat(actualProcedure.getTime()).isEqualTo(someProcedure.getTime());
 
-        //update procedure then
+        // update procedure
+        updateProcedure.setId(createdProcedureId);
+        HttpEntity<ProcedureDTO> requestUpdate = new HttpEntity<>(updateProcedure, headers);
+        ResponseEntity<ProcedureDTO> updatedProcedure = restTemplate.exchange("http://localhost:" + port + "/procedures/" + createdProcedureId, HttpMethod.PUT, requestUpdate, ProcedureDTO.class);
+        ProcedureDTO updatedProcedureBody = updatedProcedure.getBody();
+        // update procedure then
         assert updatedProcedureBody != null;
         assertThat(updatedProcedureBody.getName()).isEqualTo(updatedProcedureName);
         assertThat(updatedProcedureBody.getDescription()).isEqualTo(updatedProcedureDescription);
         assertThat(updatedProcedureBody.getTime()).isEqualTo(updatedProcedureTime);
 
+        // delete procedure
+        restTemplate.exchange("http://localhost:" + port + "/procedures/" + createdProcedureId, HttpMethod.DELETE, request, ProcedureDTO.class);
+        HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
+                () -> restTemplate.getForObject("http://localhost:" + port + "/procedures/" + createdProcedureId, ProcedureDTO.class));
 
+        String expectedMessage = String.format("404 : \"Procedure not found: %d\"", createdProcedureId);
         //delete procedure then
         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
-
     }
 
     private ProcedureDTO someProcedure() {
