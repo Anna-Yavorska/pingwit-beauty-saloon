@@ -74,45 +74,6 @@ class OperationConverterTest {
         verify(procedureConverter).convertProcedureToDTO(operation.getProcedure());
     }
 
-    // Не могу сделать тест, конвертеры хотят возвращать [ClientDTO], а я не могу ничего придумать.
-    // Направь на путь истенный, пожалуйста
-
-
-//    @Test
-//    @DisplayName("Should convert Collection<Operation> to List<OperationDTO>")
-//    void shouldConvertCollectionEntityToListDto(){
-//        //given
-//        Collection<Operation> operations = List.of(entityOperation(789));
-//        List<OperationDTO> expected = List.of(operationDTO(789));
-//
-//        List<Client> clients = operations.stream()
-//                .map(Operation::getClient)
-//                .toList();
-//
-//
-//        List<Master> masters = operations.stream()
-//                .map(Operation::getMaster)
-//                .toList();
-//
-//        List<Procedure> procedures = operations.stream()
-//                .map(Operation::getProcedure)
-//                .toList();
-//
-//        when(clientConverter.convertClientToDTO(clients)).thenReturn(List.of(clientDTO));
-//        when(masterConverter.convertMasterToDTO(masters)).thenReturn(List.of(masterDTO));
-//        when(procedureConverter.convertProcedureToDTO(procedures)).thenReturn(List.of(procedureDTO));
-//
-//        //when
-//        List<OperationDTO> actual = target.convertOperationToDTO(operations);
-//
-//        //then
-//        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
-//        verify(clientConverter).convertClientToDTO(clients);
-//        verify(masterConverter).convertMasterToDTO(masters);
-//        verify(procedureConverter).convertProcedureToDTO(procedures);
-//
-//    }
-
     private OperationDTO operationDTO(Integer id) {
         OperationDTO operation = new OperationDTO();
         operation.setId(id);

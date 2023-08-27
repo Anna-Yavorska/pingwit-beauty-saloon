@@ -1,5 +1,6 @@
 package pingwit.beautysaloon;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -61,8 +63,15 @@ class ProcedureLifecycleIT {
         // prepare request
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // security
+        String auth = "admin" + ":" + "superman";
+        byte[] encodedAuth = Base64.encodeBase64(
+                auth.getBytes(StandardCharsets.US_ASCII) );
+        String authHeader = "Basic " + new String( encodedAuth );
+        headers.add( "Authorization", authHeader );
+
         HttpEntity<ProcedureDTO> request = new HttpEntity<>(someProcedure, headers);
-        HttpEntity<ProcedureDTO> requestUpdate = new HttpEntity<>(updateProcedure, headers);
 
         // procedure creation
         ResponseEntity<Integer> forEntity = restTemplate.postForEntity("http://localhost:" + port + "/procedures", request, Integer.class);
@@ -72,12 +81,13 @@ class ProcedureLifecycleIT {
         ProcedureDTO actualProcedure = restTemplate.getForObject("http://localhost:" + port + "/procedures/" + createdProcedureId, ProcedureDTO.class);
 
         //update procedure
+        HttpEntity<ProcedureDTO> requestUpdate = new HttpEntity<>(updateProcedure, headers);
         updateProcedure.setId(createdProcedureId);
         ResponseEntity<ProcedureDTO> updatedProcedure = restTemplate.exchange("http://localhost:" + port + "/procedures/" + createdProcedureId, HttpMethod.PUT, requestUpdate, ProcedureDTO.class);
         ProcedureDTO updatedProcedureBody = updatedProcedure.getBody();
 
         //delete procedure
-        restTemplate.delete("http://localhost:" + port + "/procedures/" + createdProcedureId);
+        restTemplate.exchange("http://localhost:" + port + "/procedures/" + createdProcedureId, HttpMethod.DELETE, request, ProcedureDTO.class);
         HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplate.getForObject("http://localhost:" + port + "/procedures/" + createdProcedureId, ProcedureDTO.class));
 

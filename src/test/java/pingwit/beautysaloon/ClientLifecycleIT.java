@@ -1,9 +1,9 @@
 package pingwit.beautysaloon;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -14,6 +14,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pingwit.beautysaloon.controller.dto.ClientDTO;
+
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,15 +37,6 @@ class ClientLifecycleIT {
         registry.add("spring.datasource.password", postgres::getUsername);
         registry.add("spring.datasource.driver-class-name", postgres::getDriverClassName);
     }
-    @Test
-    @DisplayName("Check if any clients were created during startup")
-    void checkClients(){
-        TestRestTemplate restTemplate = new TestRestTemplate();
-        ResponseEntity<ClientDTO[]> forEntity = restTemplate.getForEntity("http://localhost:" + port + "/clients", ClientDTO[].class);
-        ClientDTO[] body = forEntity.getBody();
-
-        assertThat(body).isNotEmpty();
-    }
 
     @Test
     @DisplayName("Tests client creation and subsequent retrieval, update and removal")
@@ -56,34 +49,32 @@ class ClientLifecycleIT {
         String updatedClientPhone = updateClient.getPhone();
         String updatedClientEmail = updateClient.getEmail();
 
+
         // prepare request
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // security
+        String auth = "admin" + ":" + "superman";
+        byte[] encodedAuth = Base64.encodeBase64(
+                auth.getBytes(StandardCharsets.US_ASCII) );
+        String authHeader = "Basic " + new String( encodedAuth );
+        headers.add( "Authorization", authHeader );
+
         HttpEntity<ClientDTO> request = new HttpEntity<>(someClient, headers);
-        HttpEntity<ClientDTO> requestUpdate = new HttpEntity<>(updateClient, headers);
+
+        //Check if any clients were created during startup
+        ResponseEntity<ClientDTO[]> forEntityArray = restTemplate.exchange("http://localhost:" + port + "/clients", HttpMethod.GET, request, ClientDTO[].class);
+        ClientDTO[] clients = forEntityArray.getBody();
+        assertThat(clients).isNotEmpty();
 
         // client creation
         ResponseEntity<Integer> forEntity = restTemplate.postForEntity("http://localhost:" + port + "/clients", request, Integer.class);
         Integer createdClientId = forEntity.getBody();
 
         //when
-        ClientDTO actualClient = restTemplate.getForObject("http://localhost:" + port + "/clients/" + createdClientId, ClientDTO.class);
-
-        //update client
-        updateClient.setId(createdClientId);
-        ResponseEntity<ClientDTO> updatedClient = restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.PUT, requestUpdate, ClientDTO.class);
-        ClientDTO updatedClientBody = updatedClient.getBody();
-
-
-        //delete client
-        restTemplate.delete("http://localhost:" + port + "/clients/" + createdClientId);
-
-
-        HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
-                () -> restTemplate.getForObject("http://localhost:" + port + "/clients/" + createdClientId, ClientDTO.class));
-
-        String expectedMessage =String.format("404 : \"Client not found: %d\"", createdClientId);
-
+        ResponseEntity<ClientDTO> actual = restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.GET, request, ClientDTO.class);
+        ClientDTO actualClient = actual.getBody();
 
         //create client then
         assertThat(actualClient).isNotNull();
@@ -93,16 +84,28 @@ class ClientLifecycleIT {
         assertThat(actualClient.getEmail()).isEqualTo(someClient.getEmail());
         assertThat(actualClient.getVip()).isEqualTo(someClient.getVip());
 
+        //update client
+        HttpEntity<ClientDTO> requestUpdate = new HttpEntity<>(updateClient, headers);
+        updateClient.setId(createdClientId);
+        ResponseEntity<ClientDTO> updatedClient = restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.PUT, requestUpdate, ClientDTO.class);
+        ClientDTO updatedClientBody = updatedClient.getBody();
+
         //update client then
         assert updatedClientBody != null;
         assertThat(updatedClientBody.getName()).isEqualTo(updatedClientName);
         assertThat(updatedClientBody.getPhone()).isEqualTo(updatedClientPhone);
         assertThat(updatedClientBody.getEmail()).isEqualTo(updatedClientEmail);
 
+        //delete client
+        restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.DELETE, request, ClientDTO.class);
+
+        HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
+                () -> restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.GET, request, ClientDTO.class));
+
+        String expectedMessage =String.format("404 : \"Client not found: %d\"", createdClientId);
 
         //delete client then
         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
-
     }
 
     private ClientDTO someClient() {
