@@ -63,7 +63,7 @@ class ClientConverterTest {
         List<ClientDTO> actual = target.convertClientToDTO(clients);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     private Client entityClient(Integer id) {

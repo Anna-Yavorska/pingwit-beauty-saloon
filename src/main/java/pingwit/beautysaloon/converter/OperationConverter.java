@@ -1,26 +1,26 @@
 package pingwit.beautysaloon.converter;
 
 import org.springframework.stereotype.Component;
-import pingwit.beautysaloon.controller.dto.ServiceDTO;
-import pingwit.beautysaloon.repositiry.model.SaloonService;
+import pingwit.beautysaloon.controller.dto.OperationDTO;
+import pingwit.beautysaloon.repositiry.model.Operation;
 
 import java.util.Collection;
 import java.util.List;
 
 @Component
-public class ServiceConverter {
+public class OperationConverter {
     private final ClientConverter clientConverter;
     private final MasterConverter masterConverter;
     private final ProcedureConverter procedureConverter;
 
-    public ServiceConverter(ClientConverter clientConverter, MasterConverter masterConverter, ProcedureConverter procedureConverter) {
+    public OperationConverter(ClientConverter clientConverter, MasterConverter masterConverter, ProcedureConverter procedureConverter) {
         this.clientConverter = clientConverter;
         this.masterConverter = masterConverter;
         this.procedureConverter = procedureConverter;
     }
 
-    public SaloonService convertServiceToEntity(ServiceDTO source) {
-        SaloonService result = new SaloonService();
+    public Operation convertOperationToEntity(OperationDTO source) {
+        Operation result = new Operation();
         result.setId(source.getId());
         result.setName(source.getName());
         result.setClient(clientConverter.convertClientToEntity(source.getClient()));
@@ -31,18 +31,18 @@ public class ServiceConverter {
         return result;
     }
 
-    public ServiceDTO convertServiceToDTO(SaloonService source) {
+    public OperationDTO convertOperationToDTO(Operation source) {
         return convertToDto(source);
     }
 
-    public List<ServiceDTO> convertServiceToDTO(Collection<SaloonService> source) {
+    public List<OperationDTO> convertOperationToDTO(Collection<Operation> source) {
         return source.stream()
                 .map(this::convertToDto)
                 .toList();
     }
 
-    private ServiceDTO convertToDto(SaloonService source) {
-        ServiceDTO result = new ServiceDTO();
+    private OperationDTO convertToDto(Operation source) {
+        OperationDTO result = new OperationDTO();
         result.setId(source.getId());
         result.setName(source.getName());
         result.setClient(clientConverter.convertClientToDTO(source.getClient()));

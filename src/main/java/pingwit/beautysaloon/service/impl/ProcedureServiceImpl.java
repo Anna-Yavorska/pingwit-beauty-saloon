@@ -15,6 +15,8 @@ import java.util.Collection;
 @Service
 @Transactional(readOnly = true)
 public class ProcedureServiceImpl implements ProcedureService {
+    private static final String EXCEPTION_MESSAGE = "Procedure not found: ";
+
     private final ProcedureRepository procedureRepository;
     private final ProcedureConverter procedureConverter;
     private final ProcedureValidator validator;
@@ -27,7 +29,7 @@ public class ProcedureServiceImpl implements ProcedureService {
 
     @Override
     public ProcedureDTO getProcedureById(Integer id) {
-        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException("Procedure not found: " + id));
+        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         return procedureConverter.convertProcedureToDTO(procedure);
     }
 
@@ -49,7 +51,7 @@ public class ProcedureServiceImpl implements ProcedureService {
     @Transactional
     public ProcedureDTO updateProcedure(Integer id, ProcedureDTO procedureToUpdate) {
         validator.validateProcedure(procedureToUpdate);
-        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException("Procedure not found: " + id));
+        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         Procedure entityToUpdate = procedureConverter.convertProcedureToEntity(procedureToUpdate);
         entityToUpdate.setId(id);
         procedureRepository.save(entityToUpdate);
@@ -59,7 +61,7 @@ public class ProcedureServiceImpl implements ProcedureService {
     @Override
     @Transactional
     public void deleteProcedureById(Integer id) {
-        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException("Procedure not found: " + id));
+        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
         procedureRepository.delete(procedure);
     }
 }

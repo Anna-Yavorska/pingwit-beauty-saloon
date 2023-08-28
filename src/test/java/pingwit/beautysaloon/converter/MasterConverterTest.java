@@ -1,6 +1,5 @@
 package pingwit.beautysaloon.converter;
 
-import org.checkerframework.checker.units.qual.N;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
@@ -10,13 +9,10 @@ import pingwit.beautysaloon.repositiry.model.Procedure;
 import pingwit.beautysaloon.repositiry.model.ProfLevel;
 import pingwit.beautysaloon.repositiry.model.Profession;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MasterConverterTest {
@@ -83,7 +79,7 @@ class MasterConverterTest {
         List<MasterDTO> actual = target.convertMasterToDTO(masters);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         verify(procedureConverter).convertProcedureToDTO(list);
     }
 

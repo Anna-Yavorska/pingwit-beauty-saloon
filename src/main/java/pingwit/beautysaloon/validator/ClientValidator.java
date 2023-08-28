@@ -35,7 +35,8 @@ public class ClientValidator {
             throw new ValidationException("Provided client is invalid!", violations);
         }
     }
-    public void validateClientToUpdate(ClientDTO clientDTO){
+
+    public void validateClientToUpdate(ClientDTO clientDTO) {
         List<String> violations = new ArrayList<>();
         validateLetterField(clientDTO.getName(), "name", violations);
         validateLetterField(clientDTO.getSurname(), "surname", violations);
@@ -73,7 +74,7 @@ public class ClientValidator {
         }
     }
 
-    private void validateEmail(ClientDTO clientDTO, List<String> violations){
+    private void validateEmail(ClientDTO clientDTO, List<String> violations) {
         if (!EMAIL_PATTERN.matcher(clientDTO.getEmail()).matches()) {
             violations.add(String.format("invalid email: '%s'", clientDTO.getEmail()));
         }

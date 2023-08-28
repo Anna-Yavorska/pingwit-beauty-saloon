@@ -21,7 +21,7 @@ public class PriceServiceImpl implements PriceService {
     private static final BigDecimal MIDDLE_PROF_COEFFICIENT = new BigDecimal("1.2");
     private static final BigDecimal SENIOR_PROF_COEFFICIENT = new BigDecimal("1.3");
 
-    @Value("${beautySaloon.baseRate}")
+    @Value("${beautySalon.baseRate}")
     private BigDecimal baseRate;
 
     private final MasterService masterService;
@@ -41,7 +41,7 @@ public class PriceServiceImpl implements PriceService {
                 .collect(Collectors.toSet());
         BigDecimal time = procedureService.getProcedureById(procedureId).getTime();
         BigDecimal price = null;
-        String profLevel = masterService.getMasterById(masterId).getProfLevel();
+        String profLevel = masterById.getProfLevel();
 
         if (procedures.contains(procedureId)) {
             if (profLevel.equals("basic")) {

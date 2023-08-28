@@ -18,13 +18,14 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         RestTemplate restTemplate = new RestTemplate();
 
         ExchangeRate[] rates = restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, ExchangeRate[].class);
+        assert rates != null;
         Stream<ExchangeRateDTO> rateDTOStream = Arrays.stream(rates)
-                .map(rate -> new ExchangeRateDTO(rate.getCcy(), rate.getBase_ccy(), rate.getBuy(), rate.getSale()));
+                .map(rate -> new ExchangeRateDTO(rate.getCurrency(), rate.getNationalCurrency(), rate.getBuy(), rate.getSale()));
         if (currencyCode.isBlank()) {
             return rateDTOStream.toList();
         }
         return rateDTOStream
-                .filter(rate -> currencyCode.equalsIgnoreCase(rate.getCcy()))
+                .filter(rate -> currencyCode.equalsIgnoreCase(rate.getCurrency()))
                 .toList();
     }
 }
