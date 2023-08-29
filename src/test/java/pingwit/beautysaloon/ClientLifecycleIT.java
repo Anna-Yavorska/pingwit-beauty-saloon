@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Testcontainers
 @SpringBootTest(classes = BeautySalonApplication.class,
-webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ClientLifecycleIT {
     @LocalServerPort
     private Integer port;
@@ -31,7 +31,7 @@ class ClientLifecycleIT {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:12");
 
     @DynamicPropertySource
-    static void postgresProperties(DynamicPropertyRegistry registry){
+    static void postgresProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getPassword);
         registry.add("spring.datasource.password", postgres::getUsername);
@@ -40,7 +40,7 @@ class ClientLifecycleIT {
 
     @Test
     @DisplayName("Tests client creation and subsequent retrieval, update and removal")
-    void verifyClientLifecycle(){
+    void verifyClientLifecycle() {
         //given
         RestTemplate restTemplate = new RestTemplate();
         ClientDTO someClient = someClient();
@@ -49,7 +49,6 @@ class ClientLifecycleIT {
         String updatedClientPhone = updateClient.getPhone();
         String updatedClientEmail = updateClient.getEmail();
 
-
         // prepare request
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -57,9 +56,9 @@ class ClientLifecycleIT {
         // security
         String auth = "admin" + ":" + "superman";
         byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(StandardCharsets.US_ASCII) );
-        String authHeader = "Basic " + new String( encodedAuth );
-        headers.add( "Authorization", authHeader );
+                auth.getBytes(StandardCharsets.US_ASCII));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.add("Authorization", authHeader);
 
         HttpEntity<ClientDTO> request = new HttpEntity<>(someClient, headers);
 
@@ -102,7 +101,7 @@ class ClientLifecycleIT {
         HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.GET, request, ClientDTO.class));
 
-        String expectedMessage =String.format("404 : \"Client not found: %d\"", createdClientId);
+        String expectedMessage = String.format("404 : \"Client not found: %d\"", createdClientId);
 
         //delete client then
         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
@@ -117,7 +116,8 @@ class ClientLifecycleIT {
         client.setVip(true);
         return client;
     }
-    private ClientDTO updateClient(){
+
+    private ClientDTO updateClient() {
         ClientDTO client = new ClientDTO();
         client.setName("UpdateName");
         client.setSurname("ClientSurname");

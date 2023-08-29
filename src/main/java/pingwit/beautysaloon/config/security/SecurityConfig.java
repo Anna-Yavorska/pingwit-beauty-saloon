@@ -45,12 +45,12 @@ public class SecurityConfig {
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(HttpMethod.GET, MASTERS_ENDPOINT, PROCEDURES_ENDPOINT).permitAll()
                         .requestMatchers(HttpMethod.GET, CLIENTS_ENDPOINT).hasRole(CLIENTS_ROLE)
                         .requestMatchers(HttpMethod.GET, OPERATIONS_ENDPOINT).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, OPERATIONS_ENDPOINT, MASTERS_ENDPOINT, PROCEDURES_ENDPOINT, CLIENTS_ENDPOINT).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.PUT, OPERATIONS_ENDPOINT, MASTERS_ENDPOINT, PROCEDURES_ENDPOINT, CLIENTS_ENDPOINT).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.DELETE, OPERATIONS_ENDPOINT, MASTERS_ENDPOINT, PROCEDURES_ENDPOINT, CLIENTS_ENDPOINT).hasRole(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.GET, MASTERS_ENDPOINT, PROCEDURES_ENDPOINT).permitAll()
                         .requestMatchers("/price").permitAll()
                         .requestMatchers("/hryvnia").permitAll()
                         .anyRequest().authenticated())

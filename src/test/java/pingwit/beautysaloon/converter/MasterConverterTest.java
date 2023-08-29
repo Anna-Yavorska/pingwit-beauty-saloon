@@ -30,7 +30,7 @@ class MasterConverterTest {
 
     @Test
     @DisplayName("Should convert MasterDTO to Master")
-    void shouldConvertMasterDtoToEntity(){
+    void shouldConvertMasterDtoToEntity() {
         //given
         MasterDTO master = masterDTO(ID);
         Master expected = entityMaster(ID);
@@ -48,7 +48,7 @@ class MasterConverterTest {
 
     @Test
     @DisplayName("Should convert Master to MasterDTO")
-    void shouldConvertMasterToDto(){
+    void shouldConvertMasterToDto() {
         //given
         Master master = entityMaster(ID);
         MasterDTO expected = masterDTO(ID);
@@ -66,12 +66,11 @@ class MasterConverterTest {
 
     @Test
     @DisplayName("Should convert Collection<Master> to List<MasterDTO>")
-    void shouldConvertCollectionEntityToListDto(){
+    void shouldConvertCollectionEntityToListDto() {
         //given
         Collection<Master> masters = List.of(entityMaster(ID));
         List<MasterDTO> expected = List.of(masterDTO(ID));
         List<Procedure> list = masters.stream().flatMap(master -> master.getProcedures().stream()).toList();
-
 
         when(procedureConverter.convertProcedureToDTO(list)).thenReturn(PROCEDURES_DTO.stream().toList());
 
@@ -106,5 +105,4 @@ class MasterConverterTest {
         masterDTO.setProcedures(PROCEDURES_DTO);
         return masterDTO;
     }
-
 }

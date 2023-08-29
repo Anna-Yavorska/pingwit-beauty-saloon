@@ -64,7 +64,6 @@ class MasterValidatorTest {
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
-
     }
 
     @Test
@@ -79,8 +78,8 @@ class MasterValidatorTest {
 
         //then
         assertThat(validationException.getViolations()).contains(expectedMessage);
-
     }
+
     @Test
     @DisplayName("Validation Error should be thrown when phone is invalid")
     void shouldThrow_whenPhoneIsInvalid() {
@@ -93,8 +92,8 @@ class MasterValidatorTest {
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
-
     }
+
     @Test
     @DisplayName("Validation Error should be thrown when phone is blank")
     void shouldThrow_whenPhoneIsBlank() {
@@ -107,7 +106,6 @@ class MasterValidatorTest {
 
         //then
         assertThat(validationException.getViolations()).contains(expectedMessage);
-
     }
 
     @Test
@@ -123,9 +121,10 @@ class MasterValidatorTest {
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
     }
+
     @Test
     @DisplayName("Validation Error should be thrown when Profession is invalid")
-    void shouldThrow_whenProfessionIsInvalid(){
+    void shouldThrow_whenProfessionIsInvalid() {
         //given
         MasterDTO invalidProfessionMaster = invalidProfessionMaster();
         String expectedMessage = String.format("'%s' doesn't exist at system", invalidProfessionMaster.getProfession());
@@ -138,7 +137,6 @@ class MasterValidatorTest {
     }
 
 
-
     private MasterDTO validMaster() {
         MasterDTO master = new MasterDTO();
         master.setName("TestName");
@@ -148,6 +146,7 @@ class MasterValidatorTest {
         master.setProfession("hairdresser");
         return master;
     }
+
     private MasterDTO invalidNameMaster() {
         MasterDTO master = new MasterDTO();
         master.setName("TestName1");
@@ -157,7 +156,8 @@ class MasterValidatorTest {
         master.setProfession("hairdresser");
         return master;
     }
-    private MasterDTO blankNameMaster(){
+
+    private MasterDTO blankNameMaster() {
         MasterDTO master = new MasterDTO();
         master.setName(" ");
         master.setSurname("TestSurname");
@@ -166,6 +166,7 @@ class MasterValidatorTest {
         master.setProfession("hairdresser");
         return master;
     }
+
     private MasterDTO invalidSurnameMaster() {
         MasterDTO master = new MasterDTO();
         master.setName("TestName");
@@ -175,7 +176,8 @@ class MasterValidatorTest {
         master.setProfession("hairdresser");
         return master;
     }
-    private MasterDTO blankSurnameMaster(){
+
+    private MasterDTO blankSurnameMaster() {
         MasterDTO master = new MasterDTO();
         master.setName("TestName");
         master.setSurname("");
@@ -184,7 +186,8 @@ class MasterValidatorTest {
         master.setProfession("hairdresser");
         return master;
     }
-    private MasterDTO invalidPhoneMaster(){
+
+    private MasterDTO invalidPhoneMaster() {
         MasterDTO master = new MasterDTO();
         master.setName("TestName");
         master.setSurname("TestSurname");
@@ -193,7 +196,8 @@ class MasterValidatorTest {
         master.setProfession("hairdresser");
         return master;
     }
-    private MasterDTO blankPhoneMaster(){
+
+    private MasterDTO blankPhoneMaster() {
         MasterDTO master = new MasterDTO();
         master.setName("TestName");
         master.setSurname("TestSurname");
@@ -202,7 +206,8 @@ class MasterValidatorTest {
         master.setProfession("hairdresser");
         return master;
     }
-    private MasterDTO invalidProfLevelMaster(){
+
+    private MasterDTO invalidProfLevelMaster() {
         MasterDTO master = new MasterDTO();
         master.setName("TestName");
         master.setSurname("TestSurname");
@@ -211,6 +216,7 @@ class MasterValidatorTest {
         master.setProfession("hairdresser");
         return master;
     }
+
     private MasterDTO invalidProfessionMaster() {
         MasterDTO master = new MasterDTO();
         master.setName("TestName");

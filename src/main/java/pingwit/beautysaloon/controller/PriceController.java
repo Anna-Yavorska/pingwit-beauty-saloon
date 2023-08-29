@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pingwit.beautysaloon.service.PriceService;
 
 import java.math.BigDecimal;
+
 @Tag(name = "Price management API", description = "API for Read operation with price")
 @RestController
 @RequestMapping("/price")

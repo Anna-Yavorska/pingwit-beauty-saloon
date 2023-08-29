@@ -38,15 +38,16 @@ class OperationLifecycleIT {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:12");
 
     @DynamicPropertySource
-    static void postgresProperties(DynamicPropertyRegistry registry){
+    static void postgresProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getPassword);
         registry.add("spring.datasource.password", postgres::getUsername);
         registry.add("spring.datasource.driver-class-name", postgres::getDriverClassName);
     }
+
     @Test
     @DisplayName("Tests operation creation and subsequent retrieval, update and removal")
-    void verifyOperationLifecycle(){
+    void verifyOperationLifecycle() {
         //given
         RestTemplate restTemplate = new RestTemplate();
         OperationDTO someOperation = someOperation();
@@ -59,9 +60,9 @@ class OperationLifecycleIT {
         // security
         String auth = "admin" + ":" + "superman";
         byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(StandardCharsets.US_ASCII) );
-        String authHeader = "Basic " + new String( encodedAuth );
-        headers.add( "Authorization", authHeader );
+                auth.getBytes(StandardCharsets.US_ASCII));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.add("Authorization", authHeader);
 
         HttpEntity<OperationDTO> request = new HttpEntity<>(someOperation, headers);
 
@@ -124,7 +125,7 @@ class OperationLifecycleIT {
         HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.GET, request, OperationDTO.class));
 
-        String expectedMessage =String.format("404 : \"Operation not found: %d\"", createdOperationId);
+        String expectedMessage = String.format("404 : \"Operation not found: %d\"", createdOperationId);
 
         //delete client then
         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);

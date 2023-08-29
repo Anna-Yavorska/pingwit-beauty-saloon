@@ -7,6 +7,7 @@ import pingwit.beautysaloon.controller.dto.OperationDTO;
 import pingwit.beautysaloon.service.OperationService;
 
 import java.util.List;
+
 @Tag(name = "Operation management API", description = "API for CRUD operations with operation")
 @RestController
 @RequestMapping("/operations")

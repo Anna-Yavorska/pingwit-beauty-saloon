@@ -8,6 +8,7 @@ import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.service.MasterService;
 
 import java.util.Collection;
+
 @Tag(name = "Master management API", description = "API for CRUD operations with masters")
 @RestController
 @RequestMapping("/masters")

@@ -51,7 +51,9 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public OperationDTO updateService(Integer id, OperationDTO operationToUpdate) {
         validator.validateOperation(operationToUpdate);
-        Operation operation = operationRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        if (operationRepository.findById(id).isEmpty()) {
+            throw new NotFoundException(EXCEPTION_MESSAGE + id);
+        }
         Operation entityToUpdate = operationConverter.convertOperationToEntity(operationToUpdate);
         entityToUpdate.setId(id);
         Operation updatedOperation = operationRepository.save(entityToUpdate);

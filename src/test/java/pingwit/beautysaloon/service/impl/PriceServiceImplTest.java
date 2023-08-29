@@ -38,7 +38,6 @@ class PriceServiceImplTest {
         when(masterService.getMasterById(ID)).thenReturn(masterDTO());
         when(procedureService.getProcedureById(ID)).thenReturn(procedureDTO());
 
-
         //when
         assertDoesNotThrow(() -> target.calculatePrice(ID, ID));
 
@@ -54,7 +53,6 @@ class PriceServiceImplTest {
         when(masterService.getMasterById(ID)).thenReturn(masterDTO());
         when(procedureService.getProcedureById(NEW_PROCEDURE_ID)).thenReturn(new ProcedureDTO());
 
-
         String expected = String.format("master '%s' does not do procedure with id: %d", masterDTO().getName(), NEW_PROCEDURE_ID);
 
         //when
@@ -62,7 +60,6 @@ class PriceServiceImplTest {
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
-
     }
 
     private ProcedureDTO procedureDTO() {

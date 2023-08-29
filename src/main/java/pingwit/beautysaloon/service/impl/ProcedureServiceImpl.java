@@ -51,7 +51,9 @@ public class ProcedureServiceImpl implements ProcedureService {
     @Transactional
     public ProcedureDTO updateProcedure(Integer id, ProcedureDTO procedureToUpdate) {
         validator.validateProcedure(procedureToUpdate);
-        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        if (procedureRepository.findById(id).isEmpty()) {
+            throw new NotFoundException(EXCEPTION_MESSAGE + id);
+        }
         Procedure entityToUpdate = procedureConverter.convertProcedureToEntity(procedureToUpdate);
         entityToUpdate.setId(id);
         procedureRepository.save(entityToUpdate);

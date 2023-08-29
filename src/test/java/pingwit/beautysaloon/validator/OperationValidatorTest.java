@@ -49,7 +49,6 @@ class OperationValidatorTest {
 
         String expected = "name is blank";
 
-
         when(masterService.getMasterById(blankNameOperation.getMaster().getId())).thenReturn(masterDTO);
         when(masterDTO.getProcedures()).thenReturn(List.of(procedureDTO));
 
@@ -89,7 +88,6 @@ class OperationValidatorTest {
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
-
     }
 
     @Test
@@ -138,7 +136,6 @@ class OperationValidatorTest {
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
-
     }
 
     @Test
@@ -156,7 +153,6 @@ class OperationValidatorTest {
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
-
     }
 
     @Test
@@ -173,7 +169,6 @@ class OperationValidatorTest {
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
-
     }
 
     private OperationDTO validOperation() {
