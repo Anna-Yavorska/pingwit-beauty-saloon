@@ -52,7 +52,6 @@ class ProcedureServiceImplTest {
         //then
         verify(procedureRepository).findAll();
         verify(procedureConverter).convertProcedureToDTO(procedures);
-
     }
 
     @Test
@@ -98,7 +97,6 @@ class ProcedureServiceImplTest {
         ProcedureDTO procedure = verify(procedureConverter).convertProcedureToDTO(existingProcedure);
 
         assertThat(actualProcedure).isEqualTo(procedure);
-
     }
 
 

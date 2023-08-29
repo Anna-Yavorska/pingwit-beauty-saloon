@@ -13,6 +13,9 @@ import pingwit.beautysaloon.repositiry.model.Procedure;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -35,7 +38,7 @@ class OperationConverterTest {
 
     @Test
     @DisplayName("Should convert OperationDTO to Operation")
-    void shouldConvertOperationDtoToEntity(){
+    void shouldConvertOperationDtoToEntity() {
         //given
         OperationDTO operation = operationDTO(ID);
         Operation expected = entityOperation(ID);
@@ -53,9 +56,10 @@ class OperationConverterTest {
         verify(masterConverter).convertMasterToEntity(operation.getMaster());
         verify(procedureConverter).convertProcedureToEntity(operation.getProcedure());
     }
+
     @Test
     @DisplayName("Should convert Operation to OperationDTO")
-    void shouldConvertOperationToDto(){
+    void shouldConvertOperationToDto() {
         //given
         Operation operation = entityOperation(ID);
         OperationDTO expected = operationDTO(ID);
@@ -74,6 +78,27 @@ class OperationConverterTest {
         verify(procedureConverter).convertProcedureToDTO(operation.getProcedure());
     }
 
+    @Test
+    @DisplayName("Should convert Collection<Operation> to List<OperationDTO>")
+    void shouldConvertCollectionEntityToListDto() {
+        //given
+        Collection<Operation> operations = Arrays.asList(entityOperation(ID), entityOperation(ID + 1));
+        List<OperationDTO> expected = Arrays.asList(operationDTO(ID), operationDTO(ID + 1));
+
+        when(clientConverter.convertClientToDTO(client)).thenReturn(clientDTO);
+        when(masterConverter.convertMasterToDTO(master)).thenReturn(masterDTO);
+        when(procedureConverter.convertProcedureToDTO(procedure)).thenReturn(procedureDTO);
+
+        //when
+        List<OperationDTO> actual = target.convertOperationToDTO(operations);
+
+        //then
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        verify(clientConverter, times(2)).convertClientToDTO(client);
+        verify(masterConverter, times(2)).convertMasterToDTO(master);
+        verify(procedureConverter, times(2)).convertProcedureToDTO(procedure);
+    }
+
     private OperationDTO operationDTO(Integer id) {
         OperationDTO operation = new OperationDTO();
         operation.setId(id);
@@ -85,6 +110,7 @@ class OperationConverterTest {
         operation.setPrice(new BigDecimal("25.8"));
         return operation;
     }
+
     private Operation entityOperation(Integer id) {
         Operation operation = new Operation();
         operation.setId(id);

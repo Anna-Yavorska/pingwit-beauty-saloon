@@ -39,6 +39,7 @@ class ProcedureValidatorTest {
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
     }
+
     @Test
     @DisplayName("Validation Error should be thrown when time is null")
     void shouldThrow_whenTimeIsNull() {
@@ -52,6 +53,7 @@ class ProcedureValidatorTest {
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
     }
+
     @Test
     @DisplayName("Validation Error should be thrown when time is invalid")
     void shouldThrow_whenTimeIsInvalid() {
@@ -73,6 +75,7 @@ class ProcedureValidatorTest {
         procedure.setTime(new BigDecimal("0.5"));
         return procedure;
     }
+
     private ProcedureDTO blankNameProcedure() {
         ProcedureDTO procedure = new ProcedureDTO();
         procedure.setName("");
@@ -80,14 +83,16 @@ class ProcedureValidatorTest {
         procedure.setTime(new BigDecimal("0.5"));
         return procedure;
     }
-    private ProcedureDTO timeOfProcedureIsNull(){
+
+    private ProcedureDTO timeOfProcedureIsNull() {
         ProcedureDTO procedure = new ProcedureDTO();
         procedure.setName("TestName");
         procedure.setDescription("TestDescription");
         procedure.setTime(null);
         return procedure;
     }
-    private ProcedureDTO timeOfProcedureIsInvalid(){
+
+    private ProcedureDTO timeOfProcedureIsInvalid() {
         ProcedureDTO procedure = new ProcedureDTO();
         procedure.setName("TestName");
         procedure.setDescription("TestDescription");

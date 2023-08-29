@@ -31,7 +31,6 @@ class ClientValidatorTest {
 
         //then
         verify(clientRepository).findAllByEmail(valid.getEmail());
-
     }
 
     @Test
@@ -45,11 +44,9 @@ class ClientValidatorTest {
         ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidNameClient));
         ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidNameClient));
 
-
         //then
         assertThat(actual.getViolations()).containsOnly(expectedMessage);
         assertThat(actualForUpdate.getViolations()).containsOnly(expectedMessage);
-
     }
 
 
@@ -64,11 +61,9 @@ class ClientValidatorTest {
         ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(blankNameClient));
         ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(blankNameClient));
 
-
         //then
         assertThat(actual.getViolations()).contains(expectedMessage);
         assertThat(actualForUpdate.getViolations()).contains(expectedMessage);
-
     }
 
 
@@ -86,8 +81,6 @@ class ClientValidatorTest {
         //then
         assertThat(actual.getViolations()).containsOnly(expectedMessage);
         assertThat(actualForUpdate.getViolations()).containsOnly(expectedMessage);
-
-
     }
 
     @Test
@@ -104,7 +97,6 @@ class ClientValidatorTest {
         //then
         assertThat(actual.getViolations()).contains(expectedMessage);
         assertThat(actualForUpdate.getViolations()).contains(expectedMessage);
-
     }
 
 
@@ -123,7 +115,6 @@ class ClientValidatorTest {
         //then
         assertThat(actual.getViolations()).containsOnly(expectedMessage);
         assertThat(actualForUpdate.getViolations()).containsOnly(expectedMessage);
-
     }
 
     @Test
@@ -137,11 +128,9 @@ class ClientValidatorTest {
         ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(blankPhoneClient));
         ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(blankPhoneClient));
 
-
         //then
         assertThat(actual.getViolations()).contains(expectedMessage);
         assertThat(actualForUpdate.getViolations()).contains(expectedMessage);
-
     }
 
 
@@ -156,11 +145,9 @@ class ClientValidatorTest {
         ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidEmailClient));
         ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidEmailClient));
 
-
         //then
         assertThat(actual.getViolations()).containsOnly(expectedMessage);
         assertThat(actualForUpdate.getViolations()).containsOnly(expectedMessage);
-
     }
 
     @Test
@@ -177,7 +164,6 @@ class ClientValidatorTest {
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
-
     }
 
     private ClientDTO validClient() {

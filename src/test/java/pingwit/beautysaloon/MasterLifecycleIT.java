@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @Testcontainers
 @SpringBootTest(classes = BeautySalonApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -35,24 +36,26 @@ class MasterLifecycleIT {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:12");
 
     @DynamicPropertySource
-    static void postgresProperties(DynamicPropertyRegistry registry){
+    static void postgresProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getPassword);
         registry.add("spring.datasource.password", postgres::getUsername);
         registry.add("spring.datasource.driver-class-name", postgres::getDriverClassName);
     }
+
     @Test
     @DisplayName("Check if any masters were created during startup")
-    void checkClients(){
+    void checkClients() {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<MasterDTO[]> forEntity = restTemplate.getForEntity("http://localhost:" + port + "/masters", MasterDTO[].class);
         MasterDTO[] body = forEntity.getBody();
 
         assertThat(body).isNotEmpty();
     }
+
     @Test
     @DisplayName("Tests master creation and subsequent retrieval, update and removal")
-    void verifyMasterLifecycle(){
+    void verifyMasterLifecycle() {
         //given
         RestTemplate restTemplate = new RestTemplate();
 
@@ -79,9 +82,9 @@ class MasterLifecycleIT {
         // security
         String auth = "admin" + ":" + "superman";
         byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(StandardCharsets.US_ASCII) );
-        String authHeader = "Basic " + new String( encodedAuth );
-        headers.add( "Authorization", authHeader );
+                auth.getBytes(StandardCharsets.US_ASCII));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.add("Authorization", authHeader);
 
         HttpEntity<MasterDTO> request = new HttpEntity<>(someMaster, headers);
 
@@ -149,5 +152,4 @@ class MasterLifecycleIT {
         master.setProcedures(null);
         return master;
     }
-
 }

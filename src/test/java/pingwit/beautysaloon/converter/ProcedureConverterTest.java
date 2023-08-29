@@ -22,7 +22,7 @@ class ProcedureConverterTest {
 
     @Test
     @DisplayName("Should convert ProcedureDTO to Procedure")
-    void shouldConvertProcedureDtoToEntity(){
+    void shouldConvertProcedureDtoToEntity() {
         //given
         ProcedureDTO procedure = procedureDTO(ID);
         Procedure expected = entityProcedure(ID);
@@ -35,12 +35,11 @@ class ProcedureConverterTest {
         assertThat(actual.getName()).isEqualTo(expected.getName());
         assertThat(actual.getDescription()).isEqualTo(expected.getDescription());
         assertThat(actual.getTime()).isEqualTo(expected.getTime());
-
     }
 
     @Test
     @DisplayName("Should convert Collection<ProcedureDTO> to List<Procedure>")
-    void shouldConvertCollectionDtoToListEntity(){
+    void shouldConvertCollectionDtoToListEntity() {
         //given
         Collection<ProcedureDTO> procedures = List.of(procedureDTO(ID));
         List<Procedure> expected = List.of(entityProcedure(ID));
@@ -51,9 +50,10 @@ class ProcedureConverterTest {
         //then
         assertThat(actual).hasToString(expected.toString());
     }
+
     @Test
     @DisplayName("Should return Collection.EMPTY_LIST when List<ProductDTO> is null")
-    void shouldReturnEmptyCollection_whenSourceIsNull(){
+    void shouldReturnEmptyCollection_whenSourceIsNull() {
         //given
         Collection<ProcedureDTO> procedures = null;
         List<Procedure> expected = Collections.EMPTY_LIST;
@@ -67,7 +67,7 @@ class ProcedureConverterTest {
 
     @Test
     @DisplayName("Should convert Procedure to ProcedureDTO")
-    void shouldConvertProcedureToDto(){
+    void shouldConvertProcedureToDto() {
         //given
         Procedure procedure = entityProcedure(ID);
         ProcedureDTO expected = procedureDTO(ID);
@@ -81,7 +81,7 @@ class ProcedureConverterTest {
 
     @Test
     @DisplayName("Should convert Collection<Procedure> to List<ProcedureDTO>")
-    void shouldConvertCollectionEntityToListDto(){
+    void shouldConvertCollectionEntityToListDto() {
         //given
         List<ProcedureDTO> expected = List.of(procedureDTO(ID));
         Collection<Procedure> procedures = List.of(entityProcedure(ID));
@@ -91,12 +91,10 @@ class ProcedureConverterTest {
 
         //then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
-
     }
 
 
-
-    private Procedure entityProcedure(Integer id){
+    private Procedure entityProcedure(Integer id) {
         Procedure procedure = new Procedure();
         procedure.setId(id);
         procedure.setName(NAME);
@@ -104,7 +102,8 @@ class ProcedureConverterTest {
         procedure.setTime(TIME);
         return procedure;
     }
-    private ProcedureDTO procedureDTO(Integer id){
+
+    private ProcedureDTO procedureDTO(Integer id) {
         ProcedureDTO procedureDTO = new ProcedureDTO();
         procedureDTO.setId(id);
         procedureDTO.setName(NAME);
@@ -112,5 +111,4 @@ class ProcedureConverterTest {
         procedureDTO.setTime(TIME);
         return procedureDTO;
     }
-
 }

@@ -34,24 +34,26 @@ class ProcedureLifecycleIT {
 
 
     @DynamicPropertySource
-    static void postgresProperties(DynamicPropertyRegistry registry){
+    static void postgresProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getPassword);
         registry.add("spring.datasource.password", postgres::getUsername);
         registry.add("spring.datasource.driver-class-name", postgres::getDriverClassName);
     }
+
     @Test
     @DisplayName("Check if any procedures were created during startup")
-    void checkClients(){
+    void checkClients() {
         TestRestTemplate restTemplate = new TestRestTemplate();
         ResponseEntity<ProcedureDTO[]> forEntity = restTemplate.getForEntity("http://localhost:" + port + "/procedures", ProcedureDTO[].class);
         ProcedureDTO[] body = forEntity.getBody();
 
         assertThat(body).isNotEmpty();
     }
+
     @Test
     @DisplayName("Tests procedure creation and subsequent retrieval, update and removal")
-    void verifyProcedureLifecycle(){
+    void verifyProcedureLifecycle() {
         //given
         RestTemplate restTemplate = new RestTemplate();
         ProcedureDTO someProcedure = someProcedure();
@@ -67,9 +69,9 @@ class ProcedureLifecycleIT {
         // security
         String auth = "admin" + ":" + "superman";
         byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(StandardCharsets.US_ASCII) );
-        String authHeader = "Basic " + new String( encodedAuth );
-        headers.add( "Authorization", authHeader );
+                auth.getBytes(StandardCharsets.US_ASCII));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.add("Authorization", authHeader);
 
         HttpEntity<ProcedureDTO> request = new HttpEntity<>(someProcedure, headers);
 
@@ -108,7 +110,6 @@ class ProcedureLifecycleIT {
 
         //delete procedure then
         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
-
     }
 
     private ProcedureDTO someProcedure() {

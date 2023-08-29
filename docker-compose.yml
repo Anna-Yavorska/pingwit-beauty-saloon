@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_demo
+    image: postgres:14.8
+    networks:
+      - pingwit_net
+    environment:
+      POSTGRES_USER: pingwit
+      POSTGRES_PASSWORD: pingwit_password
+    volumes:
+      - "vol_postgres:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+
+
+networks:
+  pingwit_net:
+    driver: bridge
+
+volumes:
+  vol_postgres:
