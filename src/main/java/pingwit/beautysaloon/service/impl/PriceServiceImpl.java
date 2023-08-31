@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
-import pingwit.beautysaloon.exception.ValidationException;
+import pingwit.beautysaloon.exception.BeautySalonValidationException;
 import pingwit.beautysaloon.service.MasterService;
 import pingwit.beautysaloon.service.PriceService;
 import pingwit.beautysaloon.service.ProcedureService;
@@ -53,7 +53,7 @@ public class PriceServiceImpl implements PriceService {
             }
         } else {
             List<String> violations = List.of(String.format("master '%s' does not do procedure with id: %d", masterById.getName(), procedureId));
-            throw new ValidationException("Calculate price is impossible", violations);
+            throw new BeautySalonValidationException("Calculate price is impossible", violations);
         }
         return price.setScale(2, RoundingMode.HALF_UP);
     }

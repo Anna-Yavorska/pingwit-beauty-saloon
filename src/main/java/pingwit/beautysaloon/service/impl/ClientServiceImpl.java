@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pingwit.beautysaloon.controller.dto.ClientDTO;
 import pingwit.beautysaloon.converter.ClientConverter;
-import pingwit.beautysaloon.exception.NotFoundException;
-import pingwit.beautysaloon.repositiry.ClientRepository;
-import pingwit.beautysaloon.repositiry.model.Client;
+import pingwit.beautysaloon.exception.BeautySalonNotFoundException;
+import pingwit.beautysaloon.repository.ClientRepository;
+import pingwit.beautysaloon.repository.model.Client;
 import pingwit.beautysaloon.service.ClientService;
 import pingwit.beautysaloon.validator.ClientValidator;
 
@@ -30,7 +30,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO getClientById(Integer id) {
-        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));
         return clientConverter.convertClientToDTO(client);
     }
 
@@ -53,7 +53,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientDTO updateClient(Integer id, ClientDTO clientToUpdate) {
         validator.validateClientToUpdate(clientToUpdate);
         if (clientRepository.findById(id).isEmpty()) {
-            throw new NotFoundException(EXCEPTION_MESSAGE + id);
+            throw new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id);
         }
         Client entityToUpdate = clientConverter.convertClientToEntity(clientToUpdate);
         entityToUpdate.setId(id);
@@ -64,7 +64,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void deleteClient(Integer id) {
-        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        Client client = clientRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));
         clientRepository.delete(client);
     }
 }

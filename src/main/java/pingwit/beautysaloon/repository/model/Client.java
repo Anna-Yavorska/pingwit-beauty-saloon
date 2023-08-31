@@ -1,4 +1,4 @@
-package pingwit.beautysaloon.repositiry.model;
+package pingwit.beautysaloon.repository.model;
 
 import jakarta.persistence.*;
 

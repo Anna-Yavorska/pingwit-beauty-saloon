@@ -6,7 +6,7 @@ import pingwit.beautysaloon.controller.dto.ClientDTO;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
 import pingwit.beautysaloon.controller.dto.OperationDTO;
-import pingwit.beautysaloon.exception.ValidationException;
+import pingwit.beautysaloon.exception.BeautySalonValidationException;
 import pingwit.beautysaloon.service.MasterService;
 
 import java.math.BigDecimal;
@@ -53,7 +53,7 @@ class OperationValidatorTest {
         when(masterDTO.getProcedures()).thenReturn(List.of(procedureDTO));
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateOperation(blankNameOperation));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateOperation(blankNameOperation));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
@@ -70,7 +70,7 @@ class OperationValidatorTest {
         when(masterDTO.getProcedures()).thenReturn(List.of(procedureDTO));
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateOperation(clientInvalidOperation));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateOperation(clientInvalidOperation));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
@@ -84,7 +84,7 @@ class OperationValidatorTest {
         String expected = "masterId can't be null";
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateOperation(masterInvalidOperation));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateOperation(masterInvalidOperation));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
@@ -101,7 +101,7 @@ class OperationValidatorTest {
         when(masterDTO.getProcedures()).thenReturn(List.of(procedureDTO));
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateOperation(invalidDateOperation));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateOperation(invalidDateOperation));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
@@ -115,7 +115,7 @@ class OperationValidatorTest {
         String expected = "procedureId can't be null";
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateOperation(invalidProcedureOperation));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateOperation(invalidProcedureOperation));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
@@ -132,7 +132,7 @@ class OperationValidatorTest {
         when(masterDTO.getProcedures()).thenReturn(List.of(procedureDTO));
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateOperation(nullPriceOperation));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateOperation(nullPriceOperation));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
@@ -149,7 +149,7 @@ class OperationValidatorTest {
         when(masterDTO.getProcedures()).thenReturn(List.of(procedureDTO));
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateOperation(invalidPriceOperation));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateOperation(invalidPriceOperation));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);
@@ -165,7 +165,7 @@ class OperationValidatorTest {
         String expected = String.format("'%s' master does not do procedure '%d'.", masterDTO.getName(), invalid.getProcedure().getId());
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateOperation(invalid));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateOperation(invalid));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);

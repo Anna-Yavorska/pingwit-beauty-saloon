@@ -3,7 +3,7 @@ package pingwit.beautysaloon.converter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pingwit.beautysaloon.controller.dto.ClientDTO;
-import pingwit.beautysaloon.repositiry.model.Client;
+import pingwit.beautysaloon.repository.model.Client;
 
 import java.util.Collection;
 import java.util.List;

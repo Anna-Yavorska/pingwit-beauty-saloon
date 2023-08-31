@@ -2,9 +2,9 @@ package pingwit.beautysaloon.converter;
 
 import org.springframework.stereotype.Component;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
-import pingwit.beautysaloon.repositiry.model.Master;
-import pingwit.beautysaloon.repositiry.model.ProfLevel;
-import pingwit.beautysaloon.repositiry.model.Profession;
+import pingwit.beautysaloon.repository.model.Master;
+import pingwit.beautysaloon.repository.model.ProfLevel;
+import pingwit.beautysaloon.repository.model.Profession;
 
 import java.util.Collection;
 import java.util.List;

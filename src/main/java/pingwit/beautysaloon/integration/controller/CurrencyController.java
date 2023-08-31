@@ -13,11 +13,11 @@ import java.util.List;
 
 @Tag(name = "Exchange rate management API", description = "API for Read operation with exchange rate")
 @RestController
-@RequestMapping("/hryvnia")
-public class ExchangeRateController {
+@RequestMapping("/currency")
+public class CurrencyController {
     private final ExchangeRateService service;
 
-    public ExchangeRateController(ExchangeRateService service) {
+    public CurrencyController(ExchangeRateService service) {
         this.service = service;
     }
 

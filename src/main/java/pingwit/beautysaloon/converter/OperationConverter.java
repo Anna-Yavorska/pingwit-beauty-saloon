@@ -2,7 +2,7 @@ package pingwit.beautysaloon.converter;
 
 import org.springframework.stereotype.Component;
 import pingwit.beautysaloon.controller.dto.OperationDTO;
-import pingwit.beautysaloon.repositiry.model.Operation;
+import pingwit.beautysaloon.repository.model.Operation;
 
 import java.util.Collection;
 import java.util.List;

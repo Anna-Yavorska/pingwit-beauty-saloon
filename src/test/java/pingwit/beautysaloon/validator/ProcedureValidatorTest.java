@@ -3,7 +3,7 @@ package pingwit.beautysaloon.validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
-import pingwit.beautysaloon.exception.ValidationException;
+import pingwit.beautysaloon.exception.BeautySalonValidationException;
 
 import java.math.BigDecimal;
 
@@ -34,7 +34,7 @@ class ProcedureValidatorTest {
         String expectedMessage = "name is blank";
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateProcedure(blankNameProcedure));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateProcedure(blankNameProcedure));
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
@@ -48,7 +48,7 @@ class ProcedureValidatorTest {
         String expectedMessage = "time is null";
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateProcedure(timeOfProcedureIsNull));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateProcedure(timeOfProcedureIsNull));
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
@@ -62,7 +62,7 @@ class ProcedureValidatorTest {
         String expectedMessage = "time must be greater than 0";
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateProcedure(timeOfProcedureIsInvalid));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateProcedure(timeOfProcedureIsInvalid));
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);

@@ -2,10 +2,10 @@ package pingwit.beautysaloon.exception;
 
 import java.util.List;
 
-public class ValidationException extends RuntimeException {
+public class BeautySalonValidationException extends RuntimeException {
     private final List<String> violations;
 
-    public ValidationException(String message, List<String> violations) {
+    public BeautySalonValidationException(String message, List<String> violations) {
         super(message);
         this.violations = violations;
     }

@@ -6,10 +6,10 @@ import pingwit.beautysaloon.controller.dto.ClientDTO;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.controller.dto.OperationDTO;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
-import pingwit.beautysaloon.repositiry.model.Client;
-import pingwit.beautysaloon.repositiry.model.Master;
-import pingwit.beautysaloon.repositiry.model.Operation;
-import pingwit.beautysaloon.repositiry.model.Procedure;
+import pingwit.beautysaloon.repository.model.Client;
+import pingwit.beautysaloon.repository.model.Master;
+import pingwit.beautysaloon.repository.model.Operation;
+import pingwit.beautysaloon.repository.model.Procedure;
 
 import java.math.BigDecimal;
 import java.sql.Date;

@@ -3,9 +3,9 @@ package pingwit.beautysaloon.validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pingwit.beautysaloon.controller.dto.ClientDTO;
-import pingwit.beautysaloon.exception.ValidationException;
-import pingwit.beautysaloon.repositiry.ClientRepository;
-import pingwit.beautysaloon.repositiry.model.Client;
+import pingwit.beautysaloon.exception.BeautySalonValidationException;
+import pingwit.beautysaloon.repository.ClientRepository;
+import pingwit.beautysaloon.repository.model.Client;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ class ClientValidatorTest {
         assertDoesNotThrow(() -> target.validateClientToUpdate(valid));
 
         //then
-        verify(clientRepository).findAllByEmail(valid.getEmail());
+        verify(clientRepository).findByEmail(valid.getEmail());
     }
 
     @Test
@@ -41,8 +41,8 @@ class ClientValidatorTest {
         String expectedMessage = String.format("name can contain only letters: '%s'", invalidNameClient.getName());
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidNameClient));
-        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidNameClient));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateClient(invalidNameClient));
+        BeautySalonValidationException actualForUpdate = assertThrows(BeautySalonValidationException.class, () -> target.validateClientToUpdate(invalidNameClient));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expectedMessage);
@@ -58,8 +58,8 @@ class ClientValidatorTest {
         String expectedMessage = "name is blank";
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(blankNameClient));
-        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(blankNameClient));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateClient(blankNameClient));
+        BeautySalonValidationException actualForUpdate = assertThrows(BeautySalonValidationException.class, () -> target.validateClientToUpdate(blankNameClient));
 
         //then
         assertThat(actual.getViolations()).contains(expectedMessage);
@@ -75,8 +75,8 @@ class ClientValidatorTest {
         String expectedMessage = String.format("surname can contain only letters: '%s'", invalidSurnameClient.getSurname());
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidSurnameClient));
-        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidSurnameClient));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateClient(invalidSurnameClient));
+        BeautySalonValidationException actualForUpdate = assertThrows(BeautySalonValidationException.class, () -> target.validateClientToUpdate(invalidSurnameClient));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expectedMessage);
@@ -91,8 +91,8 @@ class ClientValidatorTest {
         String expectedMessage = "surname is blank";
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(blankSurnameClient));
-        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(blankSurnameClient));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateClient(blankSurnameClient));
+        BeautySalonValidationException actualForUpdate = assertThrows(BeautySalonValidationException.class, () -> target.validateClientToUpdate(blankSurnameClient));
 
         //then
         assertThat(actual.getViolations()).contains(expectedMessage);
@@ -108,8 +108,8 @@ class ClientValidatorTest {
         String expectedMessage = String.format("%s can contain only digits: '%s'", "phone", invalidPhoneClient.getPhone());
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidPhoneClient));
-        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidPhoneClient));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateClient(invalidPhoneClient));
+        BeautySalonValidationException actualForUpdate = assertThrows(BeautySalonValidationException.class, () -> target.validateClientToUpdate(invalidPhoneClient));
 
 
         //then
@@ -125,8 +125,8 @@ class ClientValidatorTest {
         String expectedMessage = "Phone is blank";
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(blankPhoneClient));
-        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(blankPhoneClient));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateClient(blankPhoneClient));
+        BeautySalonValidationException actualForUpdate = assertThrows(BeautySalonValidationException.class, () -> target.validateClientToUpdate(blankPhoneClient));
 
         //then
         assertThat(actual.getViolations()).contains(expectedMessage);
@@ -142,8 +142,8 @@ class ClientValidatorTest {
         String expectedMessage = String.format("invalid email: '%s'", invalidEmailClient.getEmail());
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.validateClient(invalidEmailClient));
-        ValidationException actualForUpdate = assertThrows(ValidationException.class, () -> target.validateClientToUpdate(invalidEmailClient));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateClient(invalidEmailClient));
+        BeautySalonValidationException actualForUpdate = assertThrows(BeautySalonValidationException.class, () -> target.validateClientToUpdate(invalidEmailClient));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expectedMessage);
@@ -156,11 +156,11 @@ class ClientValidatorTest {
         //given
         ClientDTO client = validClient();
         String email = client.getEmail();
-        when(clientRepository.findAllByEmail(email)).thenReturn(List.of(new Client()));
+        when(clientRepository.findByEmail(email)).thenReturn(new Client());
         String expectedMessage = String.format("email '%s' is already used in the system. Please choose a different one!", client.getEmail());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateClient(client));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateClient(client));
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);

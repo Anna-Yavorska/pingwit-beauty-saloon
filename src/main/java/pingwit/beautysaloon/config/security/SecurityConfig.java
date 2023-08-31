@@ -52,7 +52,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, OPERATIONS_ENDPOINT, MASTERS_ENDPOINT, PROCEDURES_ENDPOINT, CLIENTS_ENDPOINT).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.GET, MASTERS_ENDPOINT, PROCEDURES_ENDPOINT).permitAll()
                         .requestMatchers("/price").permitAll()
-                        .requestMatchers("/hryvnia").permitAll()
+                        .requestMatchers("/currency").permitAll()
                         .anyRequest().authenticated())
                 .build();
     }

@@ -4,8 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
 import pingwit.beautysaloon.converter.ProcedureConverter;
-import pingwit.beautysaloon.repositiry.ProcedureRepository;
-import pingwit.beautysaloon.repositiry.model.Procedure;
+import pingwit.beautysaloon.repository.ProcedureRepository;
+import pingwit.beautysaloon.repository.model.Procedure;
 import pingwit.beautysaloon.service.ProcedureService;
 import pingwit.beautysaloon.validator.ProcedureValidator;
 

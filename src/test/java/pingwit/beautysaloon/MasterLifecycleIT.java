@@ -111,7 +111,6 @@ class MasterLifecycleIT {
         MasterDTO updatedMasterBody = updatedMaster.getBody();
 
         //update master then
-        assert updatedMasterBody != null;
         assertThat(updatedMasterBody.getName()).isEqualTo(updatedName);
         assertThat(updatedMasterBody.getSurname()).isEqualTo(updatedSurname);
         assertThat(updatedMasterBody.getPhone()).isEqualTo(updatedPhone);

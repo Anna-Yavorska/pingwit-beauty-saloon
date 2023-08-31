@@ -3,7 +3,7 @@ package pingwit.beautysaloon.validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
-import pingwit.beautysaloon.exception.ValidationException;
+import pingwit.beautysaloon.exception.BeautySalonValidationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -32,7 +32,7 @@ class MasterValidatorTest {
         String expectedMessage = String.format("name can contain only letters: '%s'", invalidNameMaster.getName());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateMaster(invalidNameMaster));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateMaster(invalidNameMaster));
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
@@ -46,7 +46,7 @@ class MasterValidatorTest {
         String expectedMessage = "name is blank";
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateMaster(blankNameMaster));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateMaster(blankNameMaster));
 
         //then
         assertThat(validationException.getViolations()).contains(expectedMessage);
@@ -60,7 +60,7 @@ class MasterValidatorTest {
         String expectedMessage = String.format("surname can contain only letters: '%s'", invalidSurnameMaster.getSurname());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateMaster(invalidSurnameMaster));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateMaster(invalidSurnameMaster));
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
@@ -74,7 +74,7 @@ class MasterValidatorTest {
         String expectedMessage = "surname is blank";
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateMaster(blankSurnameMaster));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateMaster(blankSurnameMaster));
 
         //then
         assertThat(validationException.getViolations()).contains(expectedMessage);
@@ -88,7 +88,7 @@ class MasterValidatorTest {
         String expectedMessage = String.format("%s can contain only digits: '%s'", "phone", invalidPhoneMaster.getPhone());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateMaster(invalidPhoneMaster));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateMaster(invalidPhoneMaster));
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
@@ -102,7 +102,7 @@ class MasterValidatorTest {
         String expectedMessage = "Phone is blank";
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateMaster(blankPhoneMaster));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateMaster(blankPhoneMaster));
 
         //then
         assertThat(validationException.getViolations()).contains(expectedMessage);
@@ -116,7 +116,7 @@ class MasterValidatorTest {
         String expectedMessage = String.format("'%s' doesn't exist at system", invalidProfLevelMaster.getProfLevel());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateMaster(invalidProfLevelMaster));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateMaster(invalidProfLevelMaster));
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);
@@ -130,7 +130,7 @@ class MasterValidatorTest {
         String expectedMessage = String.format("'%s' doesn't exist at system", invalidProfessionMaster.getProfession());
 
         //when
-        ValidationException validationException = assertThrows(ValidationException.class, () -> target.validateMaster(invalidProfessionMaster));
+        BeautySalonValidationException validationException = assertThrows(BeautySalonValidationException.class, () -> target.validateMaster(invalidProfessionMaster));
 
         //then
         assertThat(validationException.getViolations()).containsOnly(expectedMessage);

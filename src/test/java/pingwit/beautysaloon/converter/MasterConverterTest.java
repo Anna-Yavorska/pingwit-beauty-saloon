@@ -4,10 +4,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
-import pingwit.beautysaloon.repositiry.model.Master;
-import pingwit.beautysaloon.repositiry.model.Procedure;
-import pingwit.beautysaloon.repositiry.model.ProfLevel;
-import pingwit.beautysaloon.repositiry.model.Profession;
+import pingwit.beautysaloon.repository.model.Master;
+import pingwit.beautysaloon.repository.model.Procedure;
+import pingwit.beautysaloon.repository.model.ProfLevel;
+import pingwit.beautysaloon.repository.model.Profession;
 
 import java.util.Collection;
 import java.util.List;

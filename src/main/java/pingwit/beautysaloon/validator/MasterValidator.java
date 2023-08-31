@@ -2,9 +2,9 @@ package pingwit.beautysaloon.validator;
 
 import org.springframework.stereotype.Component;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
-import pingwit.beautysaloon.exception.ValidationException;
-import pingwit.beautysaloon.repositiry.model.ProfLevel;
-import pingwit.beautysaloon.repositiry.model.Profession;
+import pingwit.beautysaloon.exception.BeautySalonValidationException;
+import pingwit.beautysaloon.repository.model.ProfLevel;
+import pingwit.beautysaloon.repository.model.Profession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class MasterValidator {
         validateProfLevel(masterDTO, violations);
         validateProfession(masterDTO, violations);
         if (!violations.isEmpty()) {
-            throw new ValidationException("Provided master is invalid!", violations);
+            throw new BeautySalonValidationException("Provided master is invalid!", violations);
         }
     }
 

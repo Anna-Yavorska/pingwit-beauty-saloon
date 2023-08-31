@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
-import pingwit.beautysaloon.exception.ValidationException;
+import pingwit.beautysaloon.exception.BeautySalonValidationException;
 import pingwit.beautysaloon.service.MasterService;
 import pingwit.beautysaloon.service.PriceService;
 import pingwit.beautysaloon.service.ProcedureService;
@@ -56,7 +56,7 @@ class PriceServiceImplTest {
         String expected = String.format("master '%s' does not do procedure with id: %d", masterDTO().getName(), NEW_PROCEDURE_ID);
 
         //when
-        ValidationException actual = assertThrows(ValidationException.class, () -> target.calculatePrice(ID, NEW_PROCEDURE_ID));
+        BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.calculatePrice(ID, NEW_PROCEDURE_ID));
 
         //then
         assertThat(actual.getViolations()).containsOnly(expected);

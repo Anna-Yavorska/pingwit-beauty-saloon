@@ -2,7 +2,7 @@ package pingwit.beautysaloon.validator;
 
 import org.springframework.stereotype.Component;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
-import pingwit.beautysaloon.exception.ValidationException;
+import pingwit.beautysaloon.exception.BeautySalonValidationException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class ProcedureValidator {
         validateNameField(procedureDTO, violations);
         validateTimeOfProcedure(procedureDTO, violations);
         if (!violations.isEmpty()) {
-            throw new ValidationException("Provided procedure is invalid!", violations);
+            throw new BeautySalonValidationException("Provided procedure is invalid!", violations);
         }
     }
 

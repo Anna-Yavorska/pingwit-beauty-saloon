@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.converter.MasterConverter;
-import pingwit.beautysaloon.exception.NotFoundException;
-import pingwit.beautysaloon.repositiry.MasterRepository;
-import pingwit.beautysaloon.repositiry.model.Master;
+import pingwit.beautysaloon.exception.BeautySalonNotFoundException;
+import pingwit.beautysaloon.repository.MasterRepository;
+import pingwit.beautysaloon.repository.model.Master;
 import pingwit.beautysaloon.service.MasterService;
 import pingwit.beautysaloon.validator.MasterValidator;
 
@@ -28,7 +28,7 @@ public class MasterServiceImpl implements MasterService {
 
     @Override
     public MasterDTO getMasterById(Integer id) {
-        Master master = masterRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        Master master = masterRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));
         return masterConverter.convertMasterToDTO(master);
     }
 
@@ -51,7 +51,7 @@ public class MasterServiceImpl implements MasterService {
     public MasterDTO updateMaster(Integer id, MasterDTO masterToUpdate) {
         validator.validateMaster(masterToUpdate);
         if (masterRepository.findById(id).isEmpty()) {
-            throw new NotFoundException(EXCEPTION_MESSAGE + id);
+            throw new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id);
         }
         Master entityToUpdate = masterConverter.convertMasterToEntity(masterToUpdate);
         entityToUpdate.setId(id);
@@ -62,7 +62,7 @@ public class MasterServiceImpl implements MasterService {
     @Override
     @Transactional
     public void deleteMaster(Integer id) {
-        Master master = masterRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        Master master = masterRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));
         masterRepository.delete(master);
     }
 }

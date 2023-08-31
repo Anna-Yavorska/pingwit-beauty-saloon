@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
 import pingwit.beautysaloon.controller.dto.OperationDTO;
-import pingwit.beautysaloon.exception.ValidationException;
+import pingwit.beautysaloon.exception.BeautySalonValidationException;
 import pingwit.beautysaloon.service.MasterService;
 
 import java.math.BigDecimal;
@@ -32,7 +32,7 @@ public class OperationValidator {
         validateCanMasterDoProcedure(operationDTO, violations);
 
         if (!violations.isEmpty()) {
-            throw new ValidationException("Provided operation is invalid!", violations);
+            throw new BeautySalonValidationException("Provided operation is invalid!", violations);
         }
     }
 

@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pingwit.beautysaloon.controller.dto.ProcedureDTO;
 import pingwit.beautysaloon.converter.ProcedureConverter;
-import pingwit.beautysaloon.exception.NotFoundException;
-import pingwit.beautysaloon.repositiry.ProcedureRepository;
-import pingwit.beautysaloon.repositiry.model.Procedure;
+import pingwit.beautysaloon.exception.BeautySalonNotFoundException;
+import pingwit.beautysaloon.repository.ProcedureRepository;
+import pingwit.beautysaloon.repository.model.Procedure;
 import pingwit.beautysaloon.service.ProcedureService;
 import pingwit.beautysaloon.validator.ProcedureValidator;
 
@@ -29,7 +29,7 @@ public class ProcedureServiceImpl implements ProcedureService {
 
     @Override
     public ProcedureDTO getProcedureById(Integer id) {
-        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));
         return procedureConverter.convertProcedureToDTO(procedure);
     }
 
@@ -52,7 +52,7 @@ public class ProcedureServiceImpl implements ProcedureService {
     public ProcedureDTO updateProcedure(Integer id, ProcedureDTO procedureToUpdate) {
         validator.validateProcedure(procedureToUpdate);
         if (procedureRepository.findById(id).isEmpty()) {
-            throw new NotFoundException(EXCEPTION_MESSAGE + id);
+            throw new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id);
         }
         Procedure entityToUpdate = procedureConverter.convertProcedureToEntity(procedureToUpdate);
         entityToUpdate.setId(id);
@@ -63,7 +63,7 @@ public class ProcedureServiceImpl implements ProcedureService {
     @Override
     @Transactional
     public void deleteProcedureById(Integer id) {
-        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        Procedure procedure = procedureRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));
         procedureRepository.delete(procedure);
     }
 }

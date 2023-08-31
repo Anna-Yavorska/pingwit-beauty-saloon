@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pingwit.beautysaloon.controller.dto.OperationDTO;
 import pingwit.beautysaloon.converter.OperationConverter;
-import pingwit.beautysaloon.exception.NotFoundException;
-import pingwit.beautysaloon.repositiry.OperationRepository;
-import pingwit.beautysaloon.repositiry.model.Operation;
+import pingwit.beautysaloon.exception.BeautySalonNotFoundException;
+import pingwit.beautysaloon.repository.OperationRepository;
+import pingwit.beautysaloon.repository.model.Operation;
 import pingwit.beautysaloon.service.OperationService;
 import pingwit.beautysaloon.validator.OperationValidator;
 
@@ -30,7 +30,7 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public OperationDTO getOperationById(Integer id) {
-        Operation operation = operationRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        Operation operation = operationRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));
         return operationConverter.convertOperationToDTO(operation);
     }
 
@@ -52,7 +52,7 @@ public class OperationServiceImpl implements OperationService {
     public OperationDTO updateService(Integer id, OperationDTO operationToUpdate) {
         validator.validateOperation(operationToUpdate);
         if (operationRepository.findById(id).isEmpty()) {
-            throw new NotFoundException(EXCEPTION_MESSAGE + id);
+            throw new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id);
         }
         Operation entityToUpdate = operationConverter.convertOperationToEntity(operationToUpdate);
         entityToUpdate.setId(id);
@@ -63,7 +63,7 @@ public class OperationServiceImpl implements OperationService {
     @Override
     @Transactional
     public void deleteOperation(Integer id) {
-        Operation operation = operationRepository.findById(id).orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE + id));
+        Operation operation = operationRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));
         operationRepository.delete(operation);
     }
 }

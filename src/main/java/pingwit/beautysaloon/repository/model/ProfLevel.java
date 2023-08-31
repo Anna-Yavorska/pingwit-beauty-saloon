@@ -1,4 +1,4 @@
-package pingwit.beautysaloon.repositiry.model;
+package pingwit.beautysaloon.repository.model;
 
 public enum ProfLevel {
     BASIC("basic"),
