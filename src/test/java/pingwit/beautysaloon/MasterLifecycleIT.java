@@ -14,7 +14,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
-import pingwit.beautysaloon.controller.dto.ProcedureDTO;
+import pingwit.beautysaloon.controller.dto.BeautyProcedureDTO;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -59,8 +59,8 @@ class MasterLifecycleIT {
         //given
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<ProcedureDTO[]> forEntityArray = restTemplate.getForEntity("http://localhost:" + port + "/procedures", ProcedureDTO[].class);
-        List<ProcedureDTO> procedures = Arrays.stream(Objects.requireNonNull(forEntityArray.getBody())).toList();
+        ResponseEntity<BeautyProcedureDTO[]> forEntityArray = restTemplate.getForEntity("http://localhost:" + port + "/procedures", BeautyProcedureDTO[].class);
+        List<BeautyProcedureDTO> procedures = Arrays.stream(Objects.requireNonNull(forEntityArray.getBody())).toList();
 
         MasterDTO someMaster = someMaster();
         someMaster.setProcedures(procedures);
@@ -73,7 +73,7 @@ class MasterLifecycleIT {
         String updatedPhone = updateMaster.getPhone();
         String updatedProfLevel = updateMaster.getProfLevel();
         String updatedProfession = updateMaster.getProfession();
-        Collection<ProcedureDTO> updatedProcedures = updateMaster.getProcedures();
+        Collection<BeautyProcedureDTO> updatedProcedures = updateMaster.getProcedures();
 
         // prepare request
         HttpHeaders headers = new HttpHeaders();
@@ -97,12 +97,7 @@ class MasterLifecycleIT {
 
         //create master then
         assertThat(actualMaster).isNotNull();
-        assertThat(actualMaster.getName()).isEqualTo(someMaster.getName());
-        assertThat(actualMaster.getSurname()).isEqualTo(someMaster.getSurname());
-        assertThat(actualMaster.getPhone()).isEqualTo(someMaster.getPhone());
-        assertThat(actualMaster.getProfLevel()).isEqualTo(someMaster.getProfLevel());
-        assertThat(actualMaster.getProfession()).isEqualTo(someMaster.getProfession());
-        assertThat(actualMaster.getProcedures()).containsExactlyInAnyOrderElementsOf(someMaster.getProcedures());
+        assertThat(actualMaster).isEqualTo(someMaster);
 
         //update master
         HttpEntity<MasterDTO> requestUpdate = new HttpEntity<>(updateMaster, headers);
@@ -111,12 +106,8 @@ class MasterLifecycleIT {
         MasterDTO updatedMasterBody = updatedMaster.getBody();
 
         //update master then
-        assertThat(updatedMasterBody.getName()).isEqualTo(updatedName);
-        assertThat(updatedMasterBody.getSurname()).isEqualTo(updatedSurname);
-        assertThat(updatedMasterBody.getPhone()).isEqualTo(updatedPhone);
-        assertThat(updatedMasterBody.getProfLevel()).isEqualTo(updatedProfLevel);
-        assertThat(updatedMasterBody.getProfession()).isEqualTo(updatedProfession);
-        assertThat(updatedMasterBody.getProcedures()).containsExactlyInAnyOrderElementsOf(updatedProcedures);
+        assertThat(updatedMasterBody).isEqualTo(updateMaster);
+        assertThat(updatedMasterBody).usingRecursiveComparison().ignoringFields("id").isEqualTo(updateMaster);
 
         //delete master
         restTemplate.exchange("http://localhost:" + port + "/masters/" + createdMasterId, HttpMethod.DELETE, request, MasterDTO.class);
@@ -127,7 +118,6 @@ class MasterLifecycleIT {
 
         //delete master then
         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
-
     }
 
     private MasterDTO someMaster() {

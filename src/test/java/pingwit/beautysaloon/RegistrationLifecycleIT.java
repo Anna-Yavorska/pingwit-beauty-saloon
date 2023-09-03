@@ -15,8 +15,8 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pingwit.beautysaloon.controller.dto.ClientDTO;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
-import pingwit.beautysaloon.controller.dto.OperationDTO;
-import pingwit.beautysaloon.controller.dto.ProcedureDTO;
+import pingwit.beautysaloon.controller.dto.RegistrationDTO;
+import pingwit.beautysaloon.controller.dto.BeautyProcedureDTO;
 
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Testcontainers
 @SpringBootTest(classes = BeautySalonApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class OperationLifecycleIT {
+class RegistrationLifecycleIT {
     private static final Integer VALID_ID = 1;
     private static final Integer UPDATE_ID = 2;
     @LocalServerPort
@@ -50,8 +50,8 @@ class OperationLifecycleIT {
     void verifyOperationLifecycle() {
         //given
         RestTemplate restTemplate = new RestTemplate();
-        OperationDTO someOperation = someOperation();
-        OperationDTO updateOperation = updateOperation();
+        RegistrationDTO someOperation = someOperation();
+        RegistrationDTO updateOperation = updateOperation();
 
         // prepare request
         HttpHeaders headers = new HttpHeaders();
@@ -64,17 +64,17 @@ class OperationLifecycleIT {
         String authHeader = "Basic " + new String(encodedAuth);
         headers.add("Authorization", authHeader);
 
-        HttpEntity<OperationDTO> request = new HttpEntity<>(someOperation, headers);
+        HttpEntity<RegistrationDTO> request = new HttpEntity<>(someOperation, headers);
 
         //Check if any operation were created during startup
-        ResponseEntity<OperationDTO[]> forEntityArray = restTemplate.exchange("http://localhost:" + port + "/operations", HttpMethod.GET, request, OperationDTO[].class);
-        OperationDTO[] operations = forEntityArray.getBody();
+        ResponseEntity<RegistrationDTO[]> forEntityArray = restTemplate.exchange("http://localhost:" + port + "/operations", HttpMethod.GET, request, RegistrationDTO[].class);
+        RegistrationDTO[] operations = forEntityArray.getBody();
         assertThat(operations).isNotEmpty();
 
         //prepare valid operation
         ResponseEntity<ClientDTO> validClient = restTemplate.exchange("http://localhost:" + port + "/clients/" + VALID_ID, HttpMethod.GET, request, ClientDTO.class);
         MasterDTO validMaster = restTemplate.getForObject("http://localhost:" + port + "/masters/" + VALID_ID, MasterDTO.class);
-        ProcedureDTO validProcedure = restTemplate.getForObject("http://localhost:" + port + "/procedures/" + VALID_ID, ProcedureDTO.class);
+        BeautyProcedureDTO validProcedure = restTemplate.getForObject("http://localhost:" + port + "/procedures/" + VALID_ID, BeautyProcedureDTO.class);
         someOperation.setClient(validClient.getBody());
         someOperation.setMaster(validMaster);
         someOperation.setProcedure(validProcedure);
@@ -84,8 +84,8 @@ class OperationLifecycleIT {
         Integer createdOperationId = forEntity.getBody();
 
         //when
-        ResponseEntity<OperationDTO> actual = restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.GET, request, OperationDTO.class);
-        OperationDTO actualOperation = actual.getBody();
+        ResponseEntity<RegistrationDTO> actual = restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.GET, request, RegistrationDTO.class);
+        RegistrationDTO actualOperation = actual.getBody();
 
         //create operation then
         assertThat(actualOperation).isNotNull();
@@ -99,16 +99,16 @@ class OperationLifecycleIT {
         //prepare operation for update
         ResponseEntity<ClientDTO> updateClient = restTemplate.exchange("http://localhost:" + port + "/clients/" + UPDATE_ID, HttpMethod.GET, request, ClientDTO.class);
         MasterDTO updateMaster = restTemplate.getForObject("http://localhost:" + port + "/masters/" + VALID_ID, MasterDTO.class);
-        ProcedureDTO updateProcedure = restTemplate.getForObject("http://localhost:" + port + "/procedures/" + VALID_ID, ProcedureDTO.class);
+        BeautyProcedureDTO updateProcedure = restTemplate.getForObject("http://localhost:" + port + "/procedures/" + VALID_ID, BeautyProcedureDTO.class);
         updateOperation.setId(createdOperationId);
         updateOperation.setClient(updateClient.getBody());
         updateOperation.setMaster(updateMaster);
         updateOperation.setProcedure(updateProcedure);
 
         //update operation
-        HttpEntity<OperationDTO> requestUpdate = new HttpEntity<>(updateOperation, headers);
-        ResponseEntity<OperationDTO> updatedOperation = restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.PUT, requestUpdate, OperationDTO.class);
-        OperationDTO updatedOperationBody = updatedOperation.getBody();
+        HttpEntity<RegistrationDTO> requestUpdate = new HttpEntity<>(updateOperation, headers);
+        ResponseEntity<RegistrationDTO> updatedOperation = restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.PUT, requestUpdate, RegistrationDTO.class);
+        RegistrationDTO updatedOperationBody = updatedOperation.getBody();
 
         //updating operation then
         assert updatedOperationBody != null;
@@ -120,10 +120,10 @@ class OperationLifecycleIT {
         assertThat(updatedOperationBody.getPrice()).isEqualTo(updateOperation.getPrice());
 
         //delete operation
-        restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.DELETE, request, OperationDTO.class);
+        restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.DELETE, request, RegistrationDTO.class);
 
         HttpClientErrorException.NotFound actualException = assertThrows(HttpClientErrorException.NotFound.class,
-                () -> restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.GET, request, OperationDTO.class));
+                () -> restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.GET, request, RegistrationDTO.class));
 
         String expectedMessage = String.format("404 : \"Operation not found: %d\"", createdOperationId);
 
@@ -131,8 +131,8 @@ class OperationLifecycleIT {
         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);
     }
 
-    private OperationDTO someOperation() {
-        OperationDTO operation = new OperationDTO();
+    private RegistrationDTO someOperation() {
+        RegistrationDTO operation = new RegistrationDTO();
         operation.setName("TestName");
         operation.setClient(null);
         operation.setMaster(null);
@@ -142,8 +142,8 @@ class OperationLifecycleIT {
         return operation;
     }
 
-    private OperationDTO updateOperation() {
-        OperationDTO operation = new OperationDTO();
+    private RegistrationDTO updateOperation() {
+        RegistrationDTO operation = new RegistrationDTO();
         operation.setName("UpdateName");
         operation.setClient(null);
         operation.setMaster(null);

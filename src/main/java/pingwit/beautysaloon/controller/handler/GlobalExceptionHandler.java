@@ -10,7 +10,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
-public class RestExceptionHandler {
+public class GlobalExceptionHandler {
     @ExceptionHandler(BeautySalonNotFoundException.class)
     public ResponseEntity<String> handleNotFoundException(BeautySalonNotFoundException e) {
         return ResponseEntity.status(NOT_FOUND).body(e.getMessage());

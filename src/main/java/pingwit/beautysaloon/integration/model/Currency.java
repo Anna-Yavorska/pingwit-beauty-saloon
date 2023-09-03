@@ -2,20 +2,20 @@ package pingwit.beautysaloon.integration.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ExchangeRate {
+public class Currency {
     @JsonProperty("ccy")
-    private String currency;
+    private String foreignCurrency;
     @JsonProperty("base_ccy")
     private String nationalCurrency;
     private String buy;
     private String sale;
 
-    public String getCurrency() {
-        return currency;
+    public String getForeignCurrency() {
+        return foreignCurrency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setForeignCurrency(String foreignCurrency) {
+        this.foreignCurrency = foreignCurrency;
     }
 
     public String getNationalCurrency() {

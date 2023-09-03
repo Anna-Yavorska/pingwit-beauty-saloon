@@ -1,7 +1,7 @@
 В сущности Master сделать profLevel и profession как enum. Добавить в этом enum метод hasValue(String value)
 и использовать его в валидаторе сущности Master.
 Добавить дополнительную таблицу master_procedure, в которой будет храниться список процедур, которые может делать мастер
-В сущности Master добавить List<Procedure> procedures, который будет работать через анотацию manyToMany.
+В сущности Master добавить List<Procedure> beautyProcedures, который будет работать через анотацию manyToMany.
 
 Валидация сущностей.
 MasterDTO
@@ -26,20 +26,20 @@ ServiceDTO
     client - client.getId() != null
     master - master.getId() != null
     date - not null
-    procedure - procedure.getId() != null
+    beautyProcedure - beautyProcedure.getId() != null
     price - не null, > BigDecimal.ZERO
     также нужна валидация, что данный мастер может делать данную процедуру (нужно вычитать мастера с его услугами из БД и проверить,
     есть ли в списке
 
 Создать эндпоинт для предварительного расчета цены. Это должен быть get эндпоинт с параметрами:
-Integer master, Integer procedure.
+Integer master, Integer beautyProcedure.
 Внутри должен быть сервис для расчета цены.
 Сначала запрос валидируется - может ли этот мастер делать эту процедуру?
 Базовую ставку за час предлагаю сконфигурировать через проперти файл. Далее, если уровень мастера
 basic - оставляем как есть
 middle - умножаем на 1.2
 top - умножаем yf 1.3
-цена считается как baseRate (рейт за час) * procedure.time * проф коэффициент
+цена считается как baseRate (рейт за час) * beautyProcedure.time * проф коэффициент
 
 Создать эндпоинт для интеграции с банком для отображения курса гривны на покупку и на продажу.
 https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11

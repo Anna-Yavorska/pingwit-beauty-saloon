@@ -3,9 +3,9 @@ package pingwit.beautysaloon.converter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
-import pingwit.beautysaloon.controller.dto.ProcedureDTO;
+import pingwit.beautysaloon.controller.dto.BeautyProcedureDTO;
+import pingwit.beautysaloon.repository.model.BeautyProcedure;
 import pingwit.beautysaloon.repository.model.Master;
-import pingwit.beautysaloon.repository.model.Procedure;
 import pingwit.beautysaloon.repository.model.ProfLevel;
 import pingwit.beautysaloon.repository.model.Profession;
 
@@ -22,11 +22,11 @@ class MasterConverterTest {
     private static final String PHONE = "911";
     private static final String PROF_LEVEL = "senior";
     private static final String PROFESSION = "hairdresser";
-    private static final Collection<ProcedureDTO> PROCEDURES_DTO = List.of(new ProcedureDTO());
-    private static final List<Procedure> PROCEDURES_ENTITY = List.of(new Procedure());
+    private static final Collection<BeautyProcedureDTO> PROCEDURES_DTO = List.of(new BeautyProcedureDTO());
+    private static final List<BeautyProcedure> PROCEDURES_ENTITY = List.of(new BeautyProcedure());
 
-    private final ProcedureConverter procedureConverter = mock(ProcedureConverter.class);
-    private final MasterConverter target = new MasterConverter(procedureConverter);
+    private final BeautyProcedureConverter beautyProcedureConverter = mock(BeautyProcedureConverter.class);
+    private final MasterConverter target = new MasterConverter(beautyProcedureConverter);
 
     @Test
     @DisplayName("Should convert MasterDTO to Master")
@@ -35,15 +35,14 @@ class MasterConverterTest {
         MasterDTO master = masterDTO(ID);
         Master expected = entityMaster(ID);
 
-        when(procedureConverter.convertProcedureToEntity(master.getProcedures())).thenReturn(PROCEDURES_ENTITY);
+        when(beautyProcedureConverter.convertProcedureToEntity(master.getProcedures())).thenReturn(PROCEDURES_ENTITY);
 
         //when
         Master actual = target.convertMasterToEntity(master);
 
         //then
         assertThat(actual).hasToString(expected.toString());
-        verify(procedureConverter).convertProcedureToEntity(master.getProcedures());
-
+        verify(beautyProcedureConverter).convertProcedureToEntity(master.getProcedures());
     }
 
     @Test
@@ -53,15 +52,14 @@ class MasterConverterTest {
         Master master = entityMaster(ID);
         MasterDTO expected = masterDTO(ID);
 
-        when(procedureConverter.convertProcedureToDTO(master.getProcedures())).thenReturn(PROCEDURES_DTO.stream().toList());
+        when(beautyProcedureConverter.convertProcedureToDTO(master.getProcedures())).thenReturn(PROCEDURES_DTO.stream().toList());
 
         //when
         MasterDTO actual = target.convertMasterToDTO(master);
 
         //then
         assertThat(actual).isEqualTo(expected);
-        verify(procedureConverter).convertProcedureToDTO(master.getProcedures());
-
+        verify(beautyProcedureConverter).convertProcedureToDTO(master.getProcedures());
     }
 
     @Test
@@ -70,16 +68,16 @@ class MasterConverterTest {
         //given
         Collection<Master> masters = List.of(entityMaster(ID));
         List<MasterDTO> expected = List.of(masterDTO(ID));
-        List<Procedure> list = masters.stream().flatMap(master -> master.getProcedures().stream()).toList();
+        List<BeautyProcedure> list = masters.stream().flatMap(master -> master.getProcedures().stream()).toList();
 
-        when(procedureConverter.convertProcedureToDTO(list)).thenReturn(PROCEDURES_DTO.stream().toList());
+        when(beautyProcedureConverter.convertProcedureToDTO(list)).thenReturn(PROCEDURES_DTO.stream().toList());
 
         //when
         List<MasterDTO> actual = target.convertMasterToDTO(masters);
 
         //then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
-        verify(procedureConverter).convertProcedureToDTO(list);
+        verify(beautyProcedureConverter).convertProcedureToDTO(list);
     }
 
     private Master entityMaster(Integer id) {

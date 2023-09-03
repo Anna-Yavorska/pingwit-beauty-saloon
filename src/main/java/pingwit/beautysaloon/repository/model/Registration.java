@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "services")
-public class Operation {
+public class Registration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -23,20 +23,20 @@ public class Operation {
     private Date date;
     @ManyToOne
     @JoinColumn(name = "procedures_id")
-    private Procedure procedure;
+    private BeautyProcedure beautyProcedure;
     @Column(name = "price")
     private BigDecimal price;
 
-    public Operation() {
+    public Registration() {
     }
 
-    public Operation(Integer id, String name, Client client, Master master, Date date, Procedure procedure, BigDecimal price) {
+    public Registration(Integer id, String name, Client client, Master master, Date date, BeautyProcedure beautyProcedure, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.client = client;
         this.master = master;
         this.date = date;
-        this.procedure = procedure;
+        this.beautyProcedure = beautyProcedure;
         this.price = price;
     }
 
@@ -80,12 +80,12 @@ public class Operation {
         this.date = date;
     }
 
-    public Procedure getProcedure() {
-        return procedure;
+    public BeautyProcedure getProcedure() {
+        return beautyProcedure;
     }
 
-    public void setProcedure(Procedure procedure) {
-        this.procedure = procedure;
+    public void setProcedure(BeautyProcedure beautyProcedure) {
+        this.beautyProcedure = beautyProcedure;
     }
 
     public BigDecimal getPrice() {
@@ -104,7 +104,7 @@ public class Operation {
                 ", client=" + client +
                 ", master=" + master +
                 ", date=" + date +
-                ", procedure=" + procedure +
+                ", procedure=" + beautyProcedure +
                 ", price=" + price +
                 '}';
     }

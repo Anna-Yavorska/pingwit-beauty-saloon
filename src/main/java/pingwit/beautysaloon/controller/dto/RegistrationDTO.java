@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
-public class OperationDTO {
+public class RegistrationDTO {
     private Integer id;
     private String name;
     private ClientDTO client;
     private MasterDTO master;
     private Date date;
-    private ProcedureDTO procedure;
+    private BeautyProcedureDTO procedure;
     private BigDecimal price;
 
     public Integer getId() {
@@ -54,11 +54,11 @@ public class OperationDTO {
         this.date = date;
     }
 
-    public ProcedureDTO getProcedure() {
+    public BeautyProcedureDTO getProcedure() {
         return procedure;
     }
 
-    public void setProcedure(ProcedureDTO procedure) {
+    public void setProcedure(BeautyProcedureDTO procedure) {
         this.procedure = procedure;
     }
 
@@ -74,7 +74,7 @@ public class OperationDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OperationDTO that = (OperationDTO) o;
+        RegistrationDTO that = (RegistrationDTO) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(client, that.client) && Objects.equals(master, that.master) && Objects.equals(date, that.date) && Objects.equals(procedure, that.procedure) && Objects.equals(price, that.price);
     }
 

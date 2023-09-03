@@ -1,12 +1,12 @@
 package pingwit.beautysaloon.integration.controller.dto;
 
-public class ExchangeRateDTO {
+public class CurrencyDTO {
     private String currency;
     private String nationalCurrency;
     private String buy;
     private String sale;
 
-    public ExchangeRateDTO(String currency, String nationalCurrency, String buy, String sale) {
+    public CurrencyDTO(String currency, String nationalCurrency, String buy, String sale) {
         this.currency = currency;
         this.nationalCurrency = nationalCurrency;
         this.buy = buy;

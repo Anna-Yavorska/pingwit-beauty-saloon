@@ -10,7 +10,7 @@ public class MasterDTO {
     private String phone;
     private String profLevel;
     private String profession;
-    private Collection<ProcedureDTO> procedures;
+    private Collection<BeautyProcedureDTO> procedures;
 
     public Integer getId() {
         return id;
@@ -60,11 +60,11 @@ public class MasterDTO {
         this.profession = profession;
     }
 
-    public Collection<ProcedureDTO> getProcedures() {
+    public Collection<BeautyProcedureDTO> getProcedures() {
         return procedures;
     }
 
-    public void setProcedures(Collection<ProcedureDTO> procedures) {
+    public void setProcedures(Collection<BeautyProcedureDTO> procedures) {
         this.procedures = procedures;
     }
 
@@ -73,12 +73,12 @@ public class MasterDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MasterDTO masterDTO = (MasterDTO) o;
-        return Objects.equals(id, masterDTO.id) && Objects.equals(name, masterDTO.name) && Objects.equals(surname, masterDTO.surname) && Objects.equals(phone, masterDTO.phone) && Objects.equals(profLevel, masterDTO.profLevel) && Objects.equals(profession, masterDTO.profession) && Objects.equals(procedures, masterDTO.procedures);
+        return Objects.equals(name, masterDTO.name) && Objects.equals(surname, masterDTO.surname) && Objects.equals(phone, masterDTO.phone) && Objects.equals(profLevel, masterDTO.profLevel) && Objects.equals(profession, masterDTO.profession) && Objects.equals(procedures, masterDTO.procedures);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, phone, profLevel, profession, procedures);
+        return Objects.hash(name, surname, phone, profLevel, profession, procedures);
     }
 
     @Override

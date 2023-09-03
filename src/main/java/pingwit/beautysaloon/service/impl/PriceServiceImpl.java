@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
-import pingwit.beautysaloon.controller.dto.ProcedureDTO;
+import pingwit.beautysaloon.controller.dto.BeautyProcedureDTO;
 import pingwit.beautysaloon.exception.BeautySalonValidationException;
 import pingwit.beautysaloon.service.MasterService;
 import pingwit.beautysaloon.service.PriceService;
-import pingwit.beautysaloon.service.ProcedureService;
+import pingwit.beautysaloon.service.BeautyProcedureService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -25,21 +25,21 @@ public class PriceServiceImpl implements PriceService {
     private BigDecimal baseRate;
 
     private final MasterService masterService;
-    private final ProcedureService procedureService;
+    private final BeautyProcedureService beautyProcedureService;
 
-    public PriceServiceImpl(MasterService masterService, ProcedureService procedureService) {
+    public PriceServiceImpl(MasterService masterService, BeautyProcedureService beautyProcedureService) {
         this.masterService = masterService;
-        this.procedureService = procedureService;
+        this.beautyProcedureService = beautyProcedureService;
     }
 
     @Override
     public BigDecimal calculatePrice(Integer masterId, Integer procedureId) {
         MasterDTO masterById = masterService.getMasterById(masterId);
-        Collection<ProcedureDTO> mastersProcedures = masterById.getProcedures();
+        Collection<BeautyProcedureDTO> mastersProcedures = masterById.getProcedures();
         Set<Integer> procedures = mastersProcedures.stream()
-                .map(ProcedureDTO::getId)
+                .map(BeautyProcedureDTO::getId)
                 .collect(Collectors.toSet());
-        BigDecimal time = procedureService.getProcedureById(procedureId).getTime();
+        BigDecimal time = beautyProcedureService.getProcedureById(procedureId).getTime();
         BigDecimal price = null;
         String profLevel = masterById.getProfLevel();
 
