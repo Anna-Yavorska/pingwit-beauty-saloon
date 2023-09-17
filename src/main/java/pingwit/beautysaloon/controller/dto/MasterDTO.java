@@ -73,12 +73,12 @@ public class MasterDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MasterDTO masterDTO = (MasterDTO) o;
-        return Objects.equals(name, masterDTO.name) && Objects.equals(surname, masterDTO.surname) && Objects.equals(phone, masterDTO.phone) && Objects.equals(profLevel, masterDTO.profLevel) && Objects.equals(profession, masterDTO.profession) && Objects.equals(procedures, masterDTO.procedures);
+        return Objects.equals(id, masterDTO.id) && Objects.equals(name, masterDTO.name) && Objects.equals(surname, masterDTO.surname) && Objects.equals(phone, masterDTO.phone) && Objects.equals(profLevel, masterDTO.profLevel) && Objects.equals(profession, masterDTO.profession) && Objects.equals(procedures, masterDTO.procedures);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, surname, phone, profLevel, profession, procedures);
+        return Objects.hash(id, name, surname, phone, profLevel, profession, procedures);
     }
 
     @Override

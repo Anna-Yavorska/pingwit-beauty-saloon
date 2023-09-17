@@ -4,8 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
 import pingwit.beautysaloon.integration.controller.dto.CurrencyDTO;
-import pingwit.beautysaloon.integration.model.Currency;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,44 +23,42 @@ class CurrencyServiceImplTest {
     @DisplayName("Should return List<ExchangeRateDTO> if params is empty")
     void shouldFindArrayOfRates_anyCodeWasNot() {
         //given
-        Currency[] expected = new Currency[]{exchangeRateEUR(), exchangeRateUSD()};
+        CurrencyDTO[] expected = new CurrencyDTO[]{exchangeRateEUR(), exchangeRateUSD()};
 
-        when(restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, Currency[].class)).thenReturn(expected);
+        when(restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, CurrencyDTO[].class)).thenReturn(expected);
 
         //when
-        List<CurrencyDTO> actual = target.findRate("");
+        List<CurrencyDTO> actual = target.findRate(null);
 
         //then
         assertEquals(2, actual.size());
-        assertThat(actual.get(0).getCurrency()).isEqualTo(expected[0].getForeignCurrency());
-        assertThat(actual.get(0).getNationalCurrency()).isEqualTo(expected[0].getNationalCurrency());
-        assertThat(actual.get(1).getCurrency()).isEqualTo(expected[1].getForeignCurrency());
-        assertThat(actual.get(1).getNationalCurrency()).isEqualTo(expected[1].getNationalCurrency());
+        List<CurrencyDTO> expectedList = Arrays.stream(expected).toList();
+        assertThat(actual).usingRecursiveComparison().ignoringFields("buy", "sale").isEqualTo(expectedList);
     }
 
     @Test
     @DisplayName("Should return Exchange rate for USD, if params was USD")
     void shouldFindExchangeRate_whenCodeWas() {
         //given
-        Currency[] expected = new Currency[]{exchangeRateUSD()};
+        CurrencyDTO[] expected = new CurrencyDTO[]{exchangeRateUSD()};
 
-        when(restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, Currency[].class)).thenReturn(expected);
+        when(restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, CurrencyDTO[].class)).thenReturn(expected);
 
         //when
         List<CurrencyDTO> actual = target.findRate(CURRENCY_CODE);
 
         //then
         assertEquals(1, actual.size());
-        assertThat(actual.get(0).getCurrency()).isEqualTo(expected[0].getForeignCurrency());
-        assertThat(actual.get(0).getNationalCurrency()).isEqualTo(expected[0].getNationalCurrency());
+        List<CurrencyDTO> expectedList = Arrays.stream(expected).toList();
+        assertThat(actual).usingRecursiveComparison().ignoringFields("buy", "sale").isEqualTo(expectedList);
     }
 
     @Test
     @DisplayName("Should return empty List when params is invalid")
     void shouldBeEmptyList_whenParamsInvalid() {
         //given
-        Currency[] rate = new Currency[]{};
-        when(restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, Currency[].class)).thenReturn(rate);
+        CurrencyDTO[] rate = new CurrencyDTO[]{};
+        when(restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, CurrencyDTO[].class)).thenReturn(rate);
 
         //when
         List<CurrencyDTO> actual = target.findRate("Code");
@@ -69,21 +67,17 @@ class CurrencyServiceImplTest {
         assertThat(actual).isEmpty();
     }
 
-    private Currency exchangeRateUSD() {
-        Currency rate = new Currency();
-        rate.setForeignCurrency("USD");
+    private CurrencyDTO exchangeRateUSD() {
+        CurrencyDTO rate = new CurrencyDTO();
+        rate.setCurrency("USD");
         rate.setNationalCurrency("UAH");
-        rate.setBuy("27.5");
-        rate.setSale("28.0");
         return rate;
     }
 
-    private Currency exchangeRateEUR() {
-        Currency rate = new Currency();
-        rate.setForeignCurrency("EUR");
+    private CurrencyDTO exchangeRateEUR() {
+        CurrencyDTO rate = new CurrencyDTO();
+        rate.setCurrency("EUR");
         rate.setNationalCurrency("UAH");
-        rate.setBuy("33.0");
-        rate.setSale("33.5");
         return rate;
     }
 }

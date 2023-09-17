@@ -57,9 +57,6 @@ class BeautyProcedureLifecycleIT {
         RestTemplate restTemplate = new RestTemplate();
         BeautyProcedureDTO someProcedure = someProcedure();
         BeautyProcedureDTO updateProcedure = updateProcedure();
-        String updatedProcedureName = updateProcedure.getName();
-        String updatedProcedureDescription = updateProcedure.getDescription();
-        BigDecimal updatedProcedureTime = updateProcedure.getTime();
 
         // prepare request
         HttpHeaders headers = new HttpHeaders();
@@ -95,16 +92,10 @@ class BeautyProcedureLifecycleIT {
         String expectedMessage = String.format("404 : \"Procedure not found: %d\"", createdProcedureId);
 
         //create procedure then
-        assertThat(actualProcedure).isNotNull();
-        assertThat(actualProcedure.getName()).isEqualTo(someProcedure.getName());
-        assertThat(actualProcedure.getDescription()).isEqualTo(someProcedure.getDescription());
-        assertThat(actualProcedure.getTime()).isEqualTo(someProcedure.getTime());
+        assertThat(actualProcedure).usingRecursiveComparison().ignoringFields("id").isEqualTo(someProcedure);
 
         //update procedure then
-        assert updatedProcedureBody != null;
-        assertThat(updatedProcedureBody.getName()).isEqualTo(updatedProcedureName);
-        assertThat(updatedProcedureBody.getDescription()).isEqualTo(updatedProcedureDescription);
-        assertThat(updatedProcedureBody.getTime()).isEqualTo(updatedProcedureTime);
+        assertThat(updatedProcedureBody).usingRecursiveComparison().ignoringFields("id").isEqualTo(updateProcedure);
 
         //delete procedure then
         assertThat(actualException.getMessage()).isEqualTo(expectedMessage);

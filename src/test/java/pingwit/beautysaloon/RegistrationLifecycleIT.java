@@ -88,13 +88,7 @@ class RegistrationLifecycleIT {
         RegistrationDTO actualOperation = actual.getBody();
 
         //create operation then
-        assertThat(actualOperation).isNotNull();
-        assertThat(actualOperation.getName()).isEqualTo(someOperation.getName());
-        assertThat(actualOperation.getClient()).isEqualTo(someOperation.getClient());
-        assertThat(actualOperation.getMaster()).isEqualTo(someOperation.getMaster());
-        assertThat(actualOperation.getDate()).isEqualTo(someOperation.getDate());
-        assertThat(actualOperation.getProcedure()).isEqualTo(someOperation.getProcedure());
-        assertThat(actualOperation.getPrice()).isEqualTo(someOperation.getPrice());
+        assertThat(actualOperation).usingRecursiveComparison().ignoringFields("id").isEqualTo(someOperation);
 
         //prepare operation for update
         ResponseEntity<ClientDTO> updateClient = restTemplate.exchange("http://localhost:" + port + "/clients/" + UPDATE_ID, HttpMethod.GET, request, ClientDTO.class);
@@ -111,13 +105,7 @@ class RegistrationLifecycleIT {
         RegistrationDTO updatedOperationBody = updatedOperation.getBody();
 
         //updating operation then
-        assert updatedOperationBody != null;
-        assertThat(updatedOperationBody.getName()).isEqualTo(updateOperation.getName());
-        assertThat(updatedOperationBody.getClient()).isEqualTo(updateOperation.getClient());
-        assertThat(updatedOperationBody.getMaster()).isEqualTo(updateOperation.getMaster());
-        assertThat(updatedOperationBody.getDate()).isEqualTo(updateOperation.getDate());
-        assertThat(updatedOperationBody.getProcedure()).isEqualTo(updateOperation.getProcedure());
-        assertThat(updatedOperationBody.getPrice()).isEqualTo(updateOperation.getPrice());
+        assertThat(updatedOperationBody).usingRecursiveComparison().ignoringFields("id").isEqualTo(updateOperation);
 
         //delete operation
         restTemplate.exchange("http://localhost:" + port + "/operations/" + createdOperationId, HttpMethod.DELETE, request, RegistrationDTO.class);

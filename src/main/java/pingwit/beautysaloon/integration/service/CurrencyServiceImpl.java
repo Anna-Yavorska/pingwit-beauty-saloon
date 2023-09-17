@@ -3,7 +3,6 @@ package pingwit.beautysaloon.integration.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pingwit.beautysaloon.integration.controller.dto.CurrencyDTO;
-import pingwit.beautysaloon.integration.model.Currency;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,10 +16,10 @@ public class CurrencyServiceImpl implements CurrencyService {
     public List<CurrencyDTO> findRate(String currencyCode) {
         RestTemplate restTemplate = new RestTemplate();
 
-        Currency[] rates = restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, Currency[].class);
+        CurrencyDTO[] rates = restTemplate.getForObject(EXCHANGE_RATE_PROVIDER_URL, CurrencyDTO[].class);
         assert rates != null;
-        Stream<CurrencyDTO> rateDTOStream = Arrays.stream(rates)
-                .map(rate -> new CurrencyDTO(rate.getForeignCurrency(), rate.getNationalCurrency(), rate.getBuy(), rate.getSale()));
+        Stream<CurrencyDTO> rateDTOStream = Arrays.stream(rates);
+
         if (currencyCode == null) {
             return rateDTOStream.toList();
         }

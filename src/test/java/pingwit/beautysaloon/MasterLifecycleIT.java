@@ -68,13 +68,6 @@ class MasterLifecycleIT {
         MasterDTO updateMaster = updateMaster();
         updateMaster.setProcedures(procedures);
 
-        String updatedName = updateMaster.getName();
-        String updatedSurname = updateMaster.getSurname();
-        String updatedPhone = updateMaster.getPhone();
-        String updatedProfLevel = updateMaster.getProfLevel();
-        String updatedProfession = updateMaster.getProfession();
-        Collection<BeautyProcedureDTO> updatedProcedures = updateMaster.getProcedures();
-
         // prepare request
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -96,17 +89,16 @@ class MasterLifecycleIT {
         MasterDTO actualMaster = restTemplate.getForObject("http://localhost:" + port + "/masters/" + createdMasterId, MasterDTO.class);
 
         //create master then
-        assertThat(actualMaster).isNotNull();
-        assertThat(actualMaster).isEqualTo(someMaster);
+        assertThat(actualMaster).usingRecursiveComparison().ignoringFields("id").isEqualTo(someMaster);
 
         //update master
         HttpEntity<MasterDTO> requestUpdate = new HttpEntity<>(updateMaster, headers);
+        assert actualMaster != null;
         actualMaster.setId(createdMasterId);
         ResponseEntity<MasterDTO> updatedMaster = restTemplate.exchange("http://localhost:" + port + "/masters/" + createdMasterId, HttpMethod.PUT, requestUpdate, MasterDTO.class);
         MasterDTO updatedMasterBody = updatedMaster.getBody();
 
         //update master then
-        assertThat(updatedMasterBody).isEqualTo(updateMaster);
         assertThat(updatedMasterBody).usingRecursiveComparison().ignoringFields("id").isEqualTo(updateMaster);
 
         //delete master
