@@ -8,6 +8,7 @@ import pingwit.beautysaloon.controller.dto.MasterDTO;
 import pingwit.beautysaloon.service.MasterService;
 
 import java.util.Collection;
+import java.util.List;
 
 @Tag(name = "Master management API", description = "API for CRUD operations with masters")
 @RestController
@@ -30,7 +31,7 @@ public class MasterController {
     @Operation(summary = "Get all masters",
             description = "Get the collection of existing masters with all information about each.")
     public Collection<MasterDTO> getAllMasters() {
-        return masterService.getAllClients();
+        return masterService.getAllMasters();
     }
 
     @PostMapping()
@@ -52,5 +53,11 @@ public class MasterController {
             description = "Delete all the information about master. If master doesn't exist, 404 response code will be returned.")
     public void deleteMaster(@PathVariable Integer id) {
         masterService.deleteMaster(id);
+    }
+    @GetMapping("/procedures")
+    @Operation(summary = "Find all masters, who do BeautyProcedure",
+            description = "Find List<MasterDTO> with beautyProcedure. If there are no any master, empty list will be returned")
+    public List<MasterDTO> findMastersByBeautyProcedure(@RequestParam String beautyProcedure){
+       return masterService.getMastersByBeautyProcedure(beautyProcedure);
     }
 }

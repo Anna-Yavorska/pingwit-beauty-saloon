@@ -1,16 +1,16 @@
 package pingwit.beautysaloon.integration.controller.dto;
 
-public class ExchangeRateDTO {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class CurrencyDTO {
+    @JsonProperty("ccy")
     private String currency;
+    @JsonProperty("base_ccy")
     private String nationalCurrency;
     private String buy;
     private String sale;
 
-    public ExchangeRateDTO(String currency, String nationalCurrency, String buy, String sale) {
-        this.currency = currency;
-        this.nationalCurrency = nationalCurrency;
-        this.buy = buy;
-        this.sale = sale;
+    public CurrencyDTO() {
     }
 
     public String getCurrency() {

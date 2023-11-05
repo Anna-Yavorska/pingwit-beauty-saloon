@@ -1,31 +1,13 @@
-package pingwit.beautysaloon.repository.model;
-
-import jakarta.persistence.*;
+package pingwit.beautysaloon.controller.dto;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
-@Entity
-@Table(name = "procedures")
-public class Procedure {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BeautyProcedureDTO {
     private Integer id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "description")
     private String description;
-    @Column(name = "time")
     private BigDecimal time;
-
-    public Procedure() {
-    }
-
-    public Procedure(Integer id, String name, String description, BigDecimal time) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.time = time;
-    }
 
     public Integer getId() {
         return id;
@@ -60,8 +42,21 @@ public class Procedure {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BeautyProcedureDTO that = (BeautyProcedureDTO) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(time, that.time);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, time);
+    }
+
+    @Override
     public String toString() {
-        return "Procedure{" +
+        return "ProcedureDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

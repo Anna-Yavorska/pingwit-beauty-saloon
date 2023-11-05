@@ -27,7 +27,6 @@ public class ClientServiceImpl implements ClientService {
         this.validator = validator;
     }
 
-
     @Override
     public ClientDTO getClientById(Integer id) {
         Client client = clientRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));

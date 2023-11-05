@@ -27,19 +27,19 @@ public class Master {
             joinColumns = @JoinColumn(name = "master_id"),
             inverseJoinColumns = @JoinColumn(name = "procedure_id")
     )
-    private List<Procedure> procedures;
+    private List<BeautyProcedure> beautyProcedures;
 
     public Master() {
     }
 
-    public Master(Integer id, String name, String surname, String phone, ProfLevel profLevel, Profession profession, List<Procedure> procedures) {
+    public Master(Integer id, String name, String surname, String phone, ProfLevel profLevel, Profession profession, List<BeautyProcedure> beautyProcedures) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.profLevel = profLevel;
         this.profession = profession;
-        this.procedures = procedures;
+        this.beautyProcedures = beautyProcedures;
     }
 
     public Integer getId() {
@@ -90,12 +90,12 @@ public class Master {
         this.profession = profession;
     }
 
-    public List<Procedure> getProcedures() {
-        return procedures;
+    public List<BeautyProcedure> getProcedures() {
+        return beautyProcedures;
     }
 
-    public void setProcedures(List<Procedure> procedures) {
-        this.procedures = procedures;
+    public void setProcedures(List<BeautyProcedure> beautyProcedures) {
+        this.beautyProcedures = beautyProcedures;
     }
 
     @Override
@@ -107,7 +107,7 @@ public class Master {
                 ", phone='" + phone + '\'' +
                 ", profLevel=" + profLevel +
                 ", profession=" + profession +
-                ", procedures=" + procedures +
+                ", procedures=" + beautyProcedures +
                 '}';
     }
 }

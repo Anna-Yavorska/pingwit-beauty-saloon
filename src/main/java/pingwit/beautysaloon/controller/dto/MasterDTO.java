@@ -10,7 +10,7 @@ public class MasterDTO {
     private String phone;
     private String profLevel;
     private String profession;
-    private Collection<ProcedureDTO> procedures;
+    private Collection<BeautyProcedureDTO> procedures;
 
     public Integer getId() {
         return id;
@@ -60,11 +60,11 @@ public class MasterDTO {
         this.profession = profession;
     }
 
-    public Collection<ProcedureDTO> getProcedures() {
+    public Collection<BeautyProcedureDTO> getProcedures() {
         return procedures;
     }
 
-    public void setProcedures(Collection<ProcedureDTO> procedures) {
+    public void setProcedures(Collection<BeautyProcedureDTO> procedures) {
         this.procedures = procedures;
     }
 

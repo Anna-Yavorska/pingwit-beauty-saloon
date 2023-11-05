@@ -1,20 +1,20 @@
 package pingwit.beautysaloon.converter;
 
 import org.springframework.stereotype.Component;
-import pingwit.beautysaloon.controller.dto.ProcedureDTO;
-import pingwit.beautysaloon.repository.model.Procedure;
+import pingwit.beautysaloon.controller.dto.BeautyProcedureDTO;
+import pingwit.beautysaloon.repository.model.BeautyProcedure;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 @Component
-public class ProcedureConverter {
-    public Procedure convertProcedureToEntity(ProcedureDTO source) {
+public class BeautyProcedureConverter {
+    public BeautyProcedure convertProcedureToEntity(BeautyProcedureDTO source) {
         return convertToEntity(source);
     }
 
-    public List<Procedure> convertProcedureToEntity(Collection<ProcedureDTO> source) {
+    public List<BeautyProcedure> convertProcedureToEntity(Collection<BeautyProcedureDTO> source) {
         if (source == null) {
             return Collections.emptyList();
         }
@@ -23,18 +23,18 @@ public class ProcedureConverter {
                 .toList();
     }
 
-    public ProcedureDTO convertProcedureToDTO(Procedure source) {
+    public BeautyProcedureDTO convertProcedureToDTO(BeautyProcedure source) {
         return convertToDto(source);
     }
 
-    public List<ProcedureDTO> convertProcedureToDTO(Collection<Procedure> source) {
+    public List<BeautyProcedureDTO> convertProcedureToDTO(Collection<BeautyProcedure> source) {
         return source.stream()
                 .map(this::convertToDto)
                 .toList();
     }
 
-    private Procedure convertToEntity(ProcedureDTO source) {
-        Procedure result = new Procedure();
+    private BeautyProcedure convertToEntity(BeautyProcedureDTO source) {
+        BeautyProcedure result = new BeautyProcedure();
         result.setId(source.getId());
         result.setName(source.getName());
         result.setDescription(source.getDescription());
@@ -42,8 +42,8 @@ public class ProcedureConverter {
         return result;
     }
 
-    private ProcedureDTO convertToDto(Procedure source) {
-        ProcedureDTO result = new ProcedureDTO();
+    private BeautyProcedureDTO convertToDto(BeautyProcedure source) {
+        BeautyProcedureDTO result = new BeautyProcedureDTO();
         result.setId(source.getId());
         result.setName(source.getName());
         result.setDescription(source.getDescription());

@@ -11,6 +11,7 @@ import pingwit.beautysaloon.service.MasterService;
 import pingwit.beautysaloon.validator.MasterValidator;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,7 +34,7 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public Collection<MasterDTO> getAllClients() {
+    public Collection<MasterDTO> getAllMasters() {
         return masterConverter.convertMasterToDTO(masterRepository.findAll());
     }
 
@@ -64,5 +65,12 @@ public class MasterServiceImpl implements MasterService {
     public void deleteMaster(Integer id) {
         Master master = masterRepository.findById(id).orElseThrow(() -> new BeautySalonNotFoundException(EXCEPTION_MESSAGE + id));
         masterRepository.delete(master);
+    }
+
+    @Override
+    public List<MasterDTO> getMastersByBeautyProcedure(String beautyProcedure) {
+        Collection<MasterDTO> allMasters = getAllMasters();
+        return allMasters.stream().filter(master -> master.getProcedures().stream().anyMatch(procedure -> procedure.getName().equalsIgnoreCase(beautyProcedure)))
+                .toList();
     }
 }

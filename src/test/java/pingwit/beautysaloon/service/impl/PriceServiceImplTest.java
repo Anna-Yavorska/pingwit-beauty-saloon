@@ -4,11 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
-import pingwit.beautysaloon.controller.dto.ProcedureDTO;
+import pingwit.beautysaloon.controller.dto.BeautyProcedureDTO;
 import pingwit.beautysaloon.exception.BeautySalonValidationException;
 import pingwit.beautysaloon.service.MasterService;
 import pingwit.beautysaloon.service.PriceService;
-import pingwit.beautysaloon.service.ProcedureService;
+import pingwit.beautysaloon.service.BeautyProcedureService;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -24,11 +24,11 @@ class PriceServiceImplTest {
     private static final Integer NEW_PROCEDURE_ID = 2;
 
     private final MasterService masterService = mock(MasterService.class);
-    private final ProcedureService procedureService = mock(ProcedureService.class);
+    private final BeautyProcedureService beautyProcedureService = mock(BeautyProcedureService.class);
 
-    private final Collection<ProcedureDTO> procedures = List.of(procedureDTO());
+    private final Collection<BeautyProcedureDTO> procedures = List.of(procedureDTO());
 
-    private final PriceService target = new PriceServiceImpl(masterService, procedureService);
+    private final PriceService target = new PriceServiceImpl(masterService, beautyProcedureService);
 
     @Test
     @DisplayName("Validation Error should not be thrown when master do procedure")
@@ -36,14 +36,14 @@ class PriceServiceImplTest {
         //given
         ReflectionTestUtils.setField(target, "baseRate", BigDecimal.valueOf(9.5));
         when(masterService.getMasterById(ID)).thenReturn(masterDTO());
-        when(procedureService.getProcedureById(ID)).thenReturn(procedureDTO());
+        when(beautyProcedureService.getProcedureById(ID)).thenReturn(procedureDTO());
 
         //when
         assertDoesNotThrow(() -> target.calculatePrice(ID, ID));
 
         //then
         verify(masterService).getMasterById(ID);
-        verify(procedureService).getProcedureById(ID);
+        verify(beautyProcedureService).getProcedureById(ID);
     }
 
     @Test
@@ -51,7 +51,7 @@ class PriceServiceImplTest {
     void shouldThrow_whenCalculateIsImpossible() {
         //given
         when(masterService.getMasterById(ID)).thenReturn(masterDTO());
-        when(procedureService.getProcedureById(NEW_PROCEDURE_ID)).thenReturn(new ProcedureDTO());
+        when(beautyProcedureService.getProcedureById(NEW_PROCEDURE_ID)).thenReturn(new BeautyProcedureDTO());
 
         String expected = String.format("master '%s' does not do procedure with id: %d", masterDTO().getName(), NEW_PROCEDURE_ID);
 
@@ -62,8 +62,8 @@ class PriceServiceImplTest {
         assertThat(actual.getViolations()).containsOnly(expected);
     }
 
-    private ProcedureDTO procedureDTO() {
-        ProcedureDTO procedure = new ProcedureDTO();
+    private BeautyProcedureDTO procedureDTO() {
+        BeautyProcedureDTO procedure = new BeautyProcedureDTO();
         procedure.setId(ID);
         procedure.setName("Women's haircut");
         procedure.setDescription("Haircut for medium length hair");

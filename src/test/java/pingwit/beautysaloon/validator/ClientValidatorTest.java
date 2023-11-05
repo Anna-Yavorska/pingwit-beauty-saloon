@@ -111,7 +111,6 @@ class ClientValidatorTest {
         BeautySalonValidationException actual = assertThrows(BeautySalonValidationException.class, () -> target.validateClient(invalidPhoneClient));
         BeautySalonValidationException actualForUpdate = assertThrows(BeautySalonValidationException.class, () -> target.validateClientToUpdate(invalidPhoneClient));
 
-
         //then
         assertThat(actual.getViolations()).containsOnly(expectedMessage);
         assertThat(actualForUpdate.getViolations()).containsOnly(expectedMessage);

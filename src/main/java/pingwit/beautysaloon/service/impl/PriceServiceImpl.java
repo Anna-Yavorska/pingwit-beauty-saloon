@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pingwit.beautysaloon.controller.dto.MasterDTO;
-import pingwit.beautysaloon.controller.dto.ProcedureDTO;
+import pingwit.beautysaloon.controller.dto.BeautyProcedureDTO;
+import pingwit.beautysaloon.controller.dto.PriceDescriptionDTO;
 import pingwit.beautysaloon.exception.BeautySalonValidationException;
 import pingwit.beautysaloon.service.MasterService;
 import pingwit.beautysaloon.service.PriceService;
-import pingwit.beautysaloon.service.ProcedureService;
+import pingwit.beautysaloon.service.BeautyProcedureService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class PriceServiceImpl implements PriceService {
+    private static final String CURRENCY = "UAH";
     private static final BigDecimal MIDDLE_PROF_COEFFICIENT = new BigDecimal("1.2");
     private static final BigDecimal SENIOR_PROF_COEFFICIENT = new BigDecimal("1.3");
 
@@ -25,21 +27,23 @@ public class PriceServiceImpl implements PriceService {
     private BigDecimal baseRate;
 
     private final MasterService masterService;
-    private final ProcedureService procedureService;
+    private final BeautyProcedureService beautyProcedureService;
 
-    public PriceServiceImpl(MasterService masterService, ProcedureService procedureService) {
+    public PriceServiceImpl(MasterService masterService, BeautyProcedureService beautyProcedureService) {
         this.masterService = masterService;
-        this.procedureService = procedureService;
+        this.beautyProcedureService = beautyProcedureService;
     }
 
     @Override
-    public BigDecimal calculatePrice(Integer masterId, Integer procedureId) {
+    public PriceDescriptionDTO calculatePrice(Integer masterId, Integer procedureId) {
+        PriceDescriptionDTO priceDescription = new PriceDescriptionDTO();
         MasterDTO masterById = masterService.getMasterById(masterId);
-        Collection<ProcedureDTO> mastersProcedures = masterById.getProcedures();
+        Collection<BeautyProcedureDTO> mastersProcedures = masterById.getProcedures();
         Set<Integer> procedures = mastersProcedures.stream()
-                .map(ProcedureDTO::getId)
+                .map(BeautyProcedureDTO::getId)
                 .collect(Collectors.toSet());
-        BigDecimal time = procedureService.getProcedureById(procedureId).getTime();
+        BeautyProcedureDTO procedureById = beautyProcedureService.getProcedureById(procedureId);
+        BigDecimal time = procedureById.getTime();
         BigDecimal price = null;
         String profLevel = masterById.getProfLevel();
 
@@ -55,6 +59,11 @@ public class PriceServiceImpl implements PriceService {
             List<String> violations = List.of(String.format("master '%s' does not do procedure with id: %d", masterById.getName(), procedureId));
             throw new BeautySalonValidationException("Calculate price is impossible", violations);
         }
-        return price.setScale(2, RoundingMode.HALF_UP);
+
+        priceDescription.setMasterName(masterById.getName());
+        priceDescription.setBeautyProcedureName(procedureById.getName());
+        priceDescription.setPrice(price.setScale(2, RoundingMode.HALF_UP));
+        priceDescription.setCurrency(CURRENCY);
+        return priceDescription;
     }
 }

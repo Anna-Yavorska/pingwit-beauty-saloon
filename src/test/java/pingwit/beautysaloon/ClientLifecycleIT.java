@@ -45,9 +45,6 @@ class ClientLifecycleIT {
         RestTemplate restTemplate = new RestTemplate();
         ClientDTO someClient = someClient();
         ClientDTO updateClient = updateClient();
-        String updatedClientName = updateClient.getName();
-        String updatedClientPhone = updateClient.getPhone();
-        String updatedClientEmail = updateClient.getEmail();
 
         // prepare request
         HttpHeaders headers = new HttpHeaders();
@@ -76,12 +73,7 @@ class ClientLifecycleIT {
         ClientDTO actualClient = actual.getBody();
 
         //create client then
-        assertThat(actualClient).isNotNull();
-        assertThat(actualClient.getName()).isEqualTo(someClient.getName());
-        assertThat(actualClient.getSurname()).isEqualTo(someClient.getSurname());
-        assertThat(actualClient.getPhone()).isEqualTo(someClient.getPhone());
-        assertThat(actualClient.getEmail()).isEqualTo(someClient.getEmail());
-        assertThat(actualClient.getVip()).isEqualTo(someClient.getVip());
+        assertThat(actualClient).usingRecursiveComparison().ignoringFields("id").isEqualTo(someClient);
 
         //update client
         HttpEntity<ClientDTO> requestUpdate = new HttpEntity<>(updateClient, headers);
@@ -90,10 +82,7 @@ class ClientLifecycleIT {
         ClientDTO updatedClientBody = updatedClient.getBody();
 
         //update client then
-        assert updatedClientBody != null;
-        assertThat(updatedClientBody.getName()).isEqualTo(updatedClientName);
-        assertThat(updatedClientBody.getPhone()).isEqualTo(updatedClientPhone);
-        assertThat(updatedClientBody.getEmail()).isEqualTo(updatedClientEmail);
+        assertThat(updatedClientBody).usingRecursiveComparison().ignoringFields("id").isEqualTo(updateClient);
 
         //delete client
         restTemplate.exchange("http://localhost:" + port + "/clients/" + createdClientId, HttpMethod.DELETE, request, ClientDTO.class);

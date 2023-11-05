@@ -11,10 +11,10 @@ import java.util.List;
 
 @Component
 public class MasterConverter {
-    private final ProcedureConverter procedureConverter;
+    private final BeautyProcedureConverter beautyProcedureConverter;
 
-    public MasterConverter(ProcedureConverter procedureConverter) {
-        this.procedureConverter = procedureConverter;
+    public MasterConverter(BeautyProcedureConverter beautyProcedureConverter) {
+        this.beautyProcedureConverter = beautyProcedureConverter;
     }
 
     public Master convertMasterToEntity(MasterDTO source) {
@@ -23,10 +23,9 @@ public class MasterConverter {
         master.setName(source.getName());
         master.setSurname(source.getSurname());
         master.setPhone(source.getPhone());
-
         master.setProfLevel(ProfLevel.findByValue(source.getProfLevel()));
         master.setProfession(Profession.findByValue(source.getProfession()));
-        master.setProcedures(procedureConverter.convertProcedureToEntity(source.getProcedures()));
+        master.setProcedures(beautyProcedureConverter.convertProcedureToEntity(source.getProcedures()));
         return master;
     }
 
@@ -48,7 +47,7 @@ public class MasterConverter {
         result.setPhone(source.getPhone());
         result.setProfLevel(source.getProfLevel().getValue());
         result.setProfession(source.getProfession().getValue());
-        result.setProcedures(procedureConverter.convertProcedureToDTO(source.getProcedures()));
+        result.setProcedures(beautyProcedureConverter.convertProcedureToDTO(source.getProcedures()));
         return result;
     }
 }

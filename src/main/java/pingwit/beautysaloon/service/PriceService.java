@@ -1,8 +1,7 @@
 package pingwit.beautysaloon.service;
 
-import java.math.BigDecimal;
+import pingwit.beautysaloon.controller.dto.PriceDescriptionDTO;
 
 public interface PriceService {
-
-    BigDecimal calculatePrice(Integer masterId, Integer procedureId);
+    PriceDescriptionDTO calculatePrice(Integer masterId, Integer procedureId);
 }

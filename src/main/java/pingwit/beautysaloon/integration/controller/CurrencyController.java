@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pingwit.beautysaloon.integration.controller.dto.ExchangeRateDTO;
-import pingwit.beautysaloon.integration.service.ExchangeRateService;
+import pingwit.beautysaloon.integration.controller.dto.CurrencyDTO;
+import pingwit.beautysaloon.integration.service.CurrencyService;
 
 import java.util.List;
 
@@ -15,16 +15,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/currency")
 public class CurrencyController {
-    private final ExchangeRateService service;
+    private final CurrencyService service;
 
-    public CurrencyController(ExchangeRateService service) {
+    public CurrencyController(CurrencyService service) {
         this.service = service;
     }
 
     @GetMapping
     @Operation(summary = "Get exchange rate",
             description = "Get information about exchange rate. If currency code will be invalid, empty array will be returned.")
-    public List<ExchangeRateDTO> getExchangeRates(@RequestParam String currencyCode) {
+    public List<CurrencyDTO> getExchangeRates(@RequestParam(name = "currencyCode", required = false) String currencyCode) {
         return service.findRate(currencyCode);
     }
 }
